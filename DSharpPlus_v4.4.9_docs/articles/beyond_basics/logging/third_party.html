@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Third Party Logging | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Third Party Logging | DSharpPlus ">
+      
+      
+      <link rel="icon" href="../../../images/favicon.ico">
+      <link rel="stylesheet" href="../../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../../public/main.css">
+      <meta name="docfx:navrel" content="../../../toc.html">
+      <meta name="docfx:tocrel" content="../../toc.html">
+      
+      <meta name="docfx:rel" content="../../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/beyond_basics/logging/third_party.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../../index.html">
+            <img id="logo" class="svg" src="../../../images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="articles.beyond_basics.logging.third_party">
+<h1 id="using-a-third-party-logger">Using a Third Party Logger</h1>
+
+<p>While the default logging implementation will meet the needs of most, some may desire to make use of a more robust
+implementation which provides more features. Thankfully, DSharpPlus allows you to use any logging library which has an
+implementation for the <a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.logging">logging abstractions</a> provided by Microsoft.</p>
+<p><a href="https://serilog.net/">Serilog</a>, one of the more popular logging libraries, will be used to demonstrate. This will simply be a brief demo,
+so we won't go into the configuration of Serilog. You'll want to head on over to their <a href="https://github.com/serilog/serilog/wiki/Configuration-Basics">wiki page</a> to learn about
+that!</p>
+<p>We'll need to install both the <code>Serilog</code> and <code>Serilog.Extensions.Logging</code> packages from NuGet, along with at least one
+of the many available <a href="https://github.com/serilog/serilog/wiki/Provided-Sinks">sinks</a>. Our example here will only use the <code>Serilog.Sinks.Console</code> sink.</p>
+<p>Start off by creating a new <code>LoggerConfiguration</code> instance, slap <code>.WriteTo.Console().CreateLogger()</code> onto the end of it,
+then directly assign that to the static <code>Logger</code> property on the <code>Log</code> class.</p>
+<pre><code class="lang-cs">Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger(); 
+</code></pre>
+<p>This will make a new Serilog logger instance which will write to the console sink.</p>
+<p>Next, create a new variable and assign it a new <code>LoggerFactory</code> instance which calls <code>AddSerilog()</code>.</p>
+<pre><code class="lang-cs">var logFactory = new LoggerFactory().AddSerilog();
+</code></pre>
+<p>Then assign that variable to the @DSharpPlus.DiscordConfiguration.LoggerFactory property of your of
+@DSharpPlus.DiscordConfiguration.</p>
+<pre><code class="lang-cs">new DiscordConfiguration()
+{
+    LoggerFactory = logFactory
+}
+</code></pre>
+<p>Altogether, you'll have something similar to this:</p>
+<pre><code class="lang-cs">using Microsoft.Extensions.Logging;
+using Serilog;
+
+public async Task MainAsync()
+{
+    Log.Logger = new LoggerConfiguration()
+        .WriteTo.Console()
+        .CreateLogger();
+
+    var logFactory = new LoggerFactory().AddSerilog();
+    var discord = new DiscordClient(new DiscordConfiguration()
+    {
+        LoggerFactory = logFactory
+    });
+}
+</code></pre>
+<p>And that's it! If you now run your bot, you'll see DSharpPlus log messages formatted and displayed by Serilog.</p>
+<p><img src="../../../images/beyond_basics_logging_third_party_01.png" alt="Console"></p>
+<!-- LINKS -->
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/beyond_basics/logging/third_party.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2023 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

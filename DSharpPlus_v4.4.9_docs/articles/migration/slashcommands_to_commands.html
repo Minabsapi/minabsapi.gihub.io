@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>DSharpPlus.SlashCommands to DSharpPlus.Commands | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="DSharpPlus.SlashCommands to DSharpPlus.Commands | DSharpPlus ">
+      
+      
+      <link rel="icon" href="../../images/favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/master/docs/articles/migration/slashcommands_to_commands.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="articles.migration.slashcommands_to_commands">
+
+<h2 id="migrating-from-dsharpplusslashcommands-to-dsharppluscommands">Migrating from DSharpPlus.SlashCommands to DSharpPlus.Commands</h2>
+<p>This section will focus on migrating existing code - there is a rough sketch of what to expect in new code at the end.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>This setup will register commands to both slash and text commands. If you want to use only slash commands, either disable the text command processor or mark your commands with <code>[AllowedProcessors(typeof(SlashCommandProcessor))]</code>.</p>
+</div>
+<p>Before migrating to the shiny new command farmework, you should make sure to update to the latest available build of the library - migrating both at once will be considerably more challenging. Then, we'll need to do some setup.</p>
+<p>Remove the SlashCommands reference and install the package. Then, set up a <a href="https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection">service collection</a> containing all services your commands need, as well as a logger. Then, call <code>BuildServiceProvider()</code> to obtain a service provider.</p>
+<p>At the very least, you will need the following:</p>
+<pre><code class="lang-cs">IServiceProvider serviceProvider = new ServiceCollection().AddLogging(x =&gt; x.AddConsole()).BuildServiceProvider();
+</code></pre>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>If you want the commands extension to log anything, you must register a logger - it cannot currently use the default logger. Additionally, when designing your services, you should keep in mind that all commands are currently transient.</p>
+</div>
+<p>Now that we're ready to change our code, go to all of your command classes and remove the reference to <code>ApplicationCommandModule</code> - we won't be needing that any more.</p>
+<p>If you previously used the functionality provided by that class, migrate it into a <code>CommandsExtension.CommandInvoked</code> event handler.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>DSharpPlus.Commands does not currently support pre-execution events. If you were using them to control execution of the command, use an <a href="../commands/custom_context_checks#advanced-features">unconditional context check</a> - more on checks later.</p>
+</div>
+<p>Next, change <code>InteractionContext</code> to <code>CommandContext</code>, change <code>SlashCommandAttribute</code> to just <code>CommandAttribute</code> and move the descriptions to their own <code>System.ComponentModel.DescriptionAttribute</code>s. The new extension will synthesize parameter names from the C# parameter names, but you can override the generated names using <code>ParameterAttribute</code>. Most other attributes follow the same naming and have been moved between namespaces or merged, such as <code>SlashMinValueAttribute</code> and <code>SlashMaxValueAttribute</code> -&gt; <code>SlashMinMaxValueAttribute</code>.</p>
+<p>Any localization you have will need to be factored into a localization provider and applied to the command using <code>InteractionLocalizerAttribute</code>.</p>
+<p>If you previously specified default required permissions, use <code>RequirePermissionsAttribute</code>, which also provides a way to specify the permissions your bot needs for the command to successfully execute.</p>
+<p>Now, let's talk about checks. The library provides a fair few built-in checks, both on <a href="../commands/custom_context_checks#parameter-checks">parameters</a> and on commands, similar to what you're used to. However, implementing your own checks works slightly different now. Checks are now comprised of two types - the check implementation and the attribute applied to the command. For more in-depth applications, you should refer to <a href="../commands/custom_context_checks">the dedicated article</a>, but on surface level it works as follows: first, paste your implementation into a check implementing <code>IContextCheck&lt;TAttribute&gt;</code>, then change it to return error messages instead of exceptions if possible and lastly register the check with the extension using the <code>AddCheck</code> methods while keeping the attribute applied to the command.</p>
+<p>As for new features, DSharpPlus.Commands allows argument converters on slash commands, as well as broadening the range of available types: you can now use all integer types, additional Discord entities and more. Have a peek around <code>DSharpPlus.Commands.Converters</code>, or <a href="../commands/custom_argument_converters">implement your own converter</a>.</p>
+<p>As a last step, we'll change how our commands are registered. To simply register commands, use the <code>AddCommands</code> methods on your <code>CommandsExtension</code>. If you wish to register commands to one guild for debugging/testing purposes, use <code>DebugGuildId</code> in <code>CommandsConfiguration</code>, and if you wish to register specific command to specific guilds, specify the IDs of those guilds in your <code>AddCommands</code> calls. It is generally recommended to not register guild-specific commands with the same name as global commands.</p>
+<h2 id="changed-names-and-concepts">Changed Names and Concepts</h2>
+<h4 id="attributes">Attributes</h4>
+<table>
+<thead>
+<tr>
+<th>DSharpPlus.SlashCommands</th>
+<th>DSharpPlus.Commands</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MinimumLengthAttribute</code> and <code>MaximumLengthAttribute</code></td>
+<td><code>MinMaxLengthAttribute</code></td>
+</tr>
+<tr>
+<td><code>MinimumAttribute</code> and <code>MaximumAttribute</code></td>
+<td><code>MinMaxValueAttribute</code></td>
+</tr>
+<tr>
+<td><code>NameLocalizationAttribute</code> and <code>DescriptionLocalizationAttribute</code></td>
+<td><code>InteractionLocalizerAttribute</code></td>
+</tr>
+<tr>
+<td><code>ChoiceNameAttribute</code></td>
+<td><code>ChoiceDisplayNameAttribute</code></td>
+</tr>
+<tr>
+<td><code>DSharpPlus.SlashCommands.DescriptionAttribute</code></td>
+<td><code>System.ComponentModel.DescriptionAttribute</code></td>
+</tr>
+<tr>
+<td><code>OptionAttribute</code></td>
+<td><code>ParameterAttribute</code></td>
+</tr>
+<tr>
+<td><code>SlashCommandAttribute</code> and <code>SlashCommandGroupAttribute</code></td>
+<td><code>CommandAttribute</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="checks">Checks</h4>
+<p>Checks are now split into two parts, with a changed error model - refer to <a href="../commands/custom_context_checks">the dedicated article</a>.</p>
+<h4 id="pre-execution-and-post-execution-events">Pre-Execution and Post-Execution Events</h4>
+<p>Pre-execution events are not currently supported, but if you used them to control execution, you can use <a href="../commands/custom_context_checks#advanced-features">an unconditional check</a> instead. <code>CommandsExtension.CommandInvoked</code> serves as post-execution event. <code>ApplicationCommandModule</code> no longer exists.</p>
+<h4 id="localization">Localization</h4>
+<p>Instead of having an attribute for each locale for the name and description of a command or parameter, you now use <code>InteractionLocalizerAttribute</code> and implement a localizer.</p>
+<h4 id="argument-converters">Argument Converters</h4>
+<p>DSharpPlus.Commands supports argument converters - refer to <a href="../commands/custom_argument_converters">the dedicated article</a>.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/master/docs/articles/migration/slashcommands_to_commands.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2024 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

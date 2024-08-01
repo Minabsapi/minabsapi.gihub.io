@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Custom Context Checks | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Custom Context Checks | DSharpPlus ">
+      
+      
+      <link rel="icon" href="../../images/favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/master/docs/articles/commands/custom_context_checks.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="articles.commands.custom_context_checks">
+<h1 id="custom-context-checks">Custom Context Checks</h1>
+
+<p>Context checks are safeguards to a command that will help it to execute successfully. Context checks like <code>RequireGuild</code> or <code>RequirePermissions</code> will cause the command not to execute if the user executes the command in a DM or if the user/bot does not have the required permissions. Occasionally, you may want to create your own context checks to ensure that a command can only be executed under certain conditions.</p>
+<p>A context check contains two important pieces:</p>
+<ul>
+<li>The attribute that will be applied to the command. This contains parameters that will be passed to the executing check.</li>
+<li>The check itself. This is the method that determines if the command can be executed.</li>
+</ul>
+<h2 id="implementing-a-context-check-attribute">Implementing a context check attribute</h2>
+<p>Any context check needs an attribute associated with it. This attribute will be applied to your command methods and needs to inherit from <code>ContextCheckAttribute</code>. It should contain the necessary metadata your check needs to determine whether or not to execute the command. For the purposes of this article, we'll create the following attribute:</p>
+<pre><code class="lang-cs">public class DirectMessageUsageAttribute : ContextCheckAttribute
+{
+    public DirectMessageUsage Usage { get; init; }
+    public DirectMessageUsageAttribute(DirectMessageUsage usage = DirectMessageUsage.Allow) =&gt; Usage = usage;
+}
+</code></pre>
+<h2 id="implementing-the-context-check">Implementing the context check</h2>
+<p>Now we're going to implement the logic which checks if the command is allowed to be executed. The <code>IContextCheck&lt;T&gt;</code> interface is used to define the check method. The <code>T</code> is the attribute that was applied to the command. In this case, it's the <code>DirectMessageUsageAttribute</code>, but it can be any check attribute - if desired, there can be multiple checks for attribute.</p>
+<p>If the check was successful, the method should return <code>null</code>. If it was unsuccessful, the method should return a string that will then be provided
+to <code>CommandsExtension.CommandErrored</code>.</p>
+<pre><code class="lang-cs">public class DirectMessageUsageCheck : IContextCheck&lt;DirectMessageUsageAttribute&gt;
+{
+    public ValueTask&lt;string?&gt; ExecuteCheckAsync(DirectMessageUsageAttribute attribute, CommandContext context)
+    {
+        // When the command is sent via DM and the attribute allows DMs, allow the command to be executed.
+        if (context.Channel.IsPrivate &amp;&amp; attribute.Usage is not DirectMessageUsage.DenyDMs)
+        {
+            return ValueTask.FromResult&lt;string?&gt;(null);
+        }
+        // When the command is sent outside of DM and the attribute allows non-DMs, allow the command to be executed.
+        else if (!context.Channel.IsPrivate &amp;&amp; attribute.Usage is not DirectMessageUsage.RequireDMs)
+        {
+            return ValueTask.FromResult&lt;string?&gt;(null);
+        }
+        // The command was sent via DM but the attribute denies DMs
+        // The command was sent outside of DM but the attribute requires DMs.
+        else
+        {
+            string dmStatus = context.Channel.IsPrivate ? &quot;inside a DM&quot; : &quot;outside a DM&quot;;
+            string requirement = attribute.Usage switch
+            {
+                DirectMessageUsage.DenyDMs =&gt; &quot;denies DM usage&quot;,
+                DirectMessageUsage.RequireDMs =&gt; &quot;requires DM usage&quot;,
+                _ =&gt; throw new NotImplementedException($&quot;A new DirectMessageUsage value was added and not implemented in the {nameof(DirectMessageUsageCheck)}: {attribute.Usage}&quot;)
+            };
+
+            return ValueTask.FromResult&lt;string?&gt;($&quot;The executed command {requirement} but was executed {dmStatus}.&quot;);
+        }
+    }
+}
+</code></pre>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Your check may inspect the command context to get more information, but you should be careful making any API calls, especially such that may alter state such as <code>RespondAsync</code>. This is an easy source of bugs, and you should be aware of the three-second limit for initial responses to interactions.</p>
+</div>
+<p>Now, for the most important part, we need to register the check:</p>
+<pre><code class="lang-cs">commandsExtension.AddCheck&lt;DirectMessageUsageCheck&gt;();
+</code></pre>
+<p>Then we use the check like such:</p>
+<pre><code class="lang-cs">[Command(&quot;dm&quot;)]
+[DirectMessageUsage(DirectMessageUsage.RequireDMs)]
+public async ValueTask RequireDMs(CommandContext commandContext) =&gt; await commandContext.RespondAsync(&quot;This command was executed in a DM!&quot;);
+</code></pre>
+<h2 id="parameter-checks">Parameter Checks</h2>
+<p>DSharpPlus.Commands also supports checks that target specifically one parameter. They are supplied with the present value and the metadata the extension has about the parameter, such as its default value or attributes. To implement a parameter check for your own parameter:</p>
+<ul>
+<li>Create an attribute that inherits from <code>ParameterCheckAttribute</code>.</li>
+<li>Have it implement <code>IParameterCheck&lt;T&gt;</code>.</li>
+<li>Register your parameter check using <code>CommandsExtension.AddParameterCheck&lt;T&gt;()</code>.</li>
+<li>Apply the attribute to your parameter.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You will be supplied an <code>object</code> for the parameter value. It is your responsibility to ensure the type matches what your check expects, and to either ignore or error on incorrect types.</p>
+</div>
+<p>For example, we can make a check that ensures a string is no longer than X characters. First, we create our attribute, as above:</p>
+<pre><code class="lang-cs">using DSharpPlus.Commands.ContextChecks.ParameterChecks;
+
+public sealed class MaximumStringLengthAttribute : ParameterCheckAttribute
+{
+    public int MaximumLength { get; private set; }
+    public MaximumStringLengthAttribute(int length) =&gt; MaximumLength = length;
+}
+</code></pre>
+<p>Then, we will be creating our check:</p>
+<pre><code class="lang-cs">using DSharpPlus.Commands.ContextChecks.ParameterChecks;
+
+public sealed class MaximumStringLengthCheck : IParameterCheck&lt;MaximumStringLengthAttribute&gt;
+{
+    public ValueTask&lt;string?&gt; ExecuteCheckAsync(MaximumStringLengthAttribute attribute, ParameterInfo info, CommandContext context)
+    {
+        if (info.Value is not string str)
+        {
+            return ValueTask.FromResult&lt;string?&gt;(&quot;The provided parameter was not a string.&quot;);
+        }
+        else if (str.Length &gt;= attribute.MaximumLength)
+        {
+            return ValueTask.FromResult&lt;string?&gt;(&quot;The string exceeded the length limit.&quot;);
+        }
+
+        return ValueTask.FromResult&lt;string?&gt;(null);
+    }
+}
+</code></pre>
+<p>We then register it like so:</p>
+<pre><code class="lang-cs">commandsExtension.AddParameterCheck&lt;MaximumStringLengthCheck&gt;();
+</code></pre>
+<p>And then apply it to our parameter:</p>
+<pre><code class="lang-cs">[Command(&quot;say&quot;)]
+public static async ValueTask SayAsync(CommandContext commandContext, [MaximumStringLength(2000)] string text) =&gt; await commandContext.RespondAsync(text);
+</code></pre>
+<h2 id="advanced-features">Advanced Features</h2>
+<p>The classes you use to implement checks participate in dependency injection, and you can request any type you previously supplied to the service provider in a public constructor. Useful applications include, but are not limited to, logging or tracking how often a command executes.</p>
+<p>A single check class can also implement multiple checks, like so:</p>
+<pre><code class="lang-cs">public class Check : IContextCheck&lt;FirstAttribute&gt;, IContextCheck&lt;SecondAttribute&gt;;
+</code></pre>
+<p>or even multiple different kinds of checks, like so:</p>
+<pre><code class="lang-cs">public class Check : IContextCheck&lt;FirstAttribute&gt;, IParameterCheck&lt;SecondAttribute&gt;;
+</code></pre>
+<p>This means that all other code in that class can be shared between the two check methods, but this should be used with caution - since checks are registered per type, you lose granularity over which checks should be executed; and it means the same construction ceremony will run for both checks.</p>
+<p>There is no limit on how many different checks can reference the same attribute, they will all be supplied with that attribute. Checks targeting <code>UnconditionalCheckAttribute</code> will always be executed, regardless of whether the attribute is applied or not. Unconditional context checks are not available for parameter checks.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/master/docs/articles/commands/custom_context_checks.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2024 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

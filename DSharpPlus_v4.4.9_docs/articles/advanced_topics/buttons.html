@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Buttons | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Buttons | DSharpPlus ">
+      
+      
+      <link rel="icon" href="../../images/favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/advanced_topics/buttons.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="articles.advanced_topics.buttons">
+<h1 id="introduction">Introduction</h1>
+
+<p>Buttons are a feature in Discord based on the interaction framework appended to the bottom of a message which come in
+several colors. You will want to familarize yourself with the <a class="xref" href="../beyond_basics/messagebuilder.html">message builder</a> as it and similar builder objects
+will be used throughout this article.</p>
+<p>With buttons, you can have up to five buttons in a row, and up to five (5) rows of buttons, for a maximum for 25 buttons
+per message. Furthermore, buttons come in two types: regular, and link. Link buttons contain a Url field, and are always
+grey.</p>
+<h1 id="buttons-continued">Buttons Continued</h1>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Component (Button) Ids on buttons should be unique, as this is what's sent back when a user presses a button.</p>
+<p>Link buttons do <strong>not</strong> have a custom id and do <strong>not</strong> send interactions when pressed.</p>
+</div>
+<p>Buttons consist of five parts:</p>
+<ul>
+<li>Id</li>
+<li>Style</li>
+<li>Label</li>
+<li>Emoji</li>
+<li>Disabled</li>
+</ul>
+<p>The id of the button is a settable string on buttons, and is specified by the developer. Discord sends this id back in
+the <a href="https://discord.dev/interactions/slash-commands#interaction">interaction object</a>.</p>
+<p>Non-link buttons come in four colors, which are known as styles: Blurple, Grey, Green, and Red. Or as their styles are
+named: Primary, Secondary, Success, and Danger respectively.</p>
+<p>How does one construct a button? It's simple, buttons support constructor and object initialization like so:</p>
+<pre><code class="lang-cs">var myButton = new DiscordButtonComponent(
+    ButtonStyle.Primary,
+    &quot;my_very_cool_button&quot;,
+    &quot;Very cool button!&quot;,
+    false,
+    new DiscordComponentEmoji(&quot;😀&quot;));
+</code></pre>
+<p>This will create a blurple button with the text that reads &quot;Very cool button!&quot;. When a user pushes it,
+<code>&quot;my_very_cool_button&quot;</code> will be sent back as the @DSharpPlus.EventArgs.ComponentInteractionCreateEventArgs.Id property
+on the event. This is expanded on in the <a href="#responding-to-button-presses">how to respond to buttons</a>.</p>
+<p>The label of a button is optional <em>if</em> an emoji is specified. The label can be up to 80 characters in length. The emoji
+of a button is a <a href="https://discord.dev/interactions/message-components#component-object">partial emoji object</a>, which means that <strong>any valid emoji is usable</strong>, even if your bot does not
+have access to it's origin server.</p>
+<p>The disabled field of a button is rather self explanatory. If this is set to true, the user will see a greyed out button
+which they cannot interact with.</p>
+<h1 id="adding-buttons">Adding buttons</h1>
+<blockquote>
+</blockquote>
+<div class="NOTE">
+<h5>Note</h5>
+<p>This article will use underscores in button ids for consistency and styling, but spaces are also usable.</p>
+</div>
+<p>Adding buttons to a message is relatively simple. Simply make a builder, and sprinkle some content and the buttons you'd
+like.</p>
+<pre><code class="lang-cs">var builder = new DiscordMessageBuilder();
+builder.WithContent(&quot;This message has buttons! Pretty neat innit?&quot;);
+</code></pre>
+<p>Well, there's a builder, but no buttons. What now? Simply make a new @DSharpPlus.Entities.DiscordButtonComponent object
+and call @DSharpPlus.Entities.DiscordMessageBuilder.AddComponents* on the
+message builder.</p>
+<pre><code class="lang-cs">var myButton = new DiscordButtonComponent(ButtonStyle.Primary, &quot;my_custom_id&quot;, &quot;This is a button!&quot;);
+
+var builder = new DiscordMessageBuilder()
+    .WithContent(&quot;This message has buttons! Pretty neat innit?&quot;)
+    .AddComponents(myButton);
+</code></pre>
+<p>Now you have a message with a button. Congratulations! It's important to note that
+@DSharpPlus.Entities.DiscordMessageBuilder.AddComponents* will create a new row with each call, so <strong>add everything you
+want on one row in one call!</strong></p>
+<p>Buttons can be added in any order you fancy. Lets add 5 to demonstrate each color, and a link button for good measure.</p>
+<pre><code class="lang-cs">var builder = new DiscordMessageBuilder()
+    .WithContent(&quot;This message has buttons! Pretty neat innit?&quot;)
+    .AddComponents(new DiscordComponent[]
+    {
+        new DiscordButtonComponent(ButtonStyle.Primary, &quot;1_top&quot;, &quot;Blurple!&quot;),
+        new DiscordButtonComponent(ButtonStyle.Secondary, &quot;2_top&quot;, &quot;Grey!&quot;),
+        new DiscordButtonComponent(ButtonStyle.Success, &quot;3_top&quot;, &quot;Green!&quot;),
+        new DiscordButtonComponent(ButtonStyle.Danger, &quot;4_top&quot;, &quot;Red!&quot;),
+        new DiscordLinkButtonComponent(&quot;https://some-super-cool.site&quot;, &quot;Link!&quot;)
+    });
+</code></pre>
+<p>As promised, not too complicated. Links however are @DSharpPlus.Entities.DiscordLinkButtonComponent, which takes a URL
+as its first parameter, and the label. Link buttons can also have an emoji, like regular buttons.</p>
+<p>Lets also add a second row of buttons, but disable them, so the user can't push them all willy-nilly.</p>
+<pre><code class="lang-cs">builder.AddComponents(new DiscordComponent[]
+{
+    new DiscordButtonComponent(ButtonStyle.Primary, &quot;1_top_d&quot;, &quot;Blurple!&quot;, true),
+    new DiscordButtonComponent(ButtonStyle.Secondary, &quot;2_top_d&quot;, &quot;Grey!&quot;, true),
+    new DiscordButtonComponent(ButtonStyle.Success, &quot;3_top_d&quot;, &quot;Green!&quot;, true),
+    new DiscordButtonComponent(ButtonStyle.Danger, &quot;4_top_d&quot;, &quot;Red!&quot;, true),
+    new DiscordLinkButtonComponent(&quot;https://some-super-cool.site&quot;, &quot;Link!&quot;, true)
+});
+</code></pre>
+<p>Practically identical, but now with <code>true</code> as an extra paremeter. This is the
+@DSharpPlus.Entities.DiscordButtonComponent.Disabled property.</p>
+<p>Produces a message like such:</p>
+<p><img src="../../images/advanced_topics_buttons_01.png" alt="Buttons"></p>
+<p>Well, that's all neat, but lets say you want to add an emoji. Being able to use any emoji is pretty neat, afterall.
+That's also very simple!</p>
+<pre><code class="lang-cs">var myButton = new DiscordButtonComponent(
+    ButtonStyle.Primary,
+    &quot;emoji_button&quot;,
+    null,
+    false,
+    new DiscordComponentEmoji(595381687026843651));
+</code></pre>
+<p>And you're done! Simply add that to a builder, and when you send, you'll get a message that has a button with a little
+Pikachu enjoying a lolipop. Adorable.</p>
+<p><img src="../../images/advanced_topics_buttons_02.png" alt="PikaLolipop"></p>
+<h1 id="responding-to-button-presses">Responding to button presses</h1>
+<p>When any button is pressed, it will fire the @DSharpPlus.DiscordClient.ComponentInteractionCreated.</p>
+<p>In the event args, @DSharpPlus.EventArgs.ComponentInteractionCreateEventArgs.Id will be the id of the button you
+specified. There's also an @DSharpPlus.EventArgs.InteractionCreateEventArgs.Interaction property, which contains the
+interaction the event created. It's important to respond to an interaction within 3 seconds, or it will time out.
+Responding after this period will throw a @DSharpPlus.Exceptions.NotFoundException.</p>
+<p>With buttons, there are two new response types: @DSharpPlus.InteractionResponseType.DeferredMessageUpdate and
+@DSharpPlus.InteractionResponseType.UpdateMessage.</p>
+<p>Using @DSharpPlus.InteractionResponseType.DeferredMessageUpdate lets you create followup messages via the
+<a href="xref:DSharpPlus.Entities.DiscordFollowupMessageBuilder">followup message builder</a>. The button will return to being in it's 'dormant' state, or it's 'unpushed' state, if you
+will.</p>
+<p>You have 15 minutes from that point to make followup messages. Responding to that interaction looks like this:</p>
+<pre><code class="lang-cs">client.ComponentInteractionCreated += async (s, e) =&gt;
+{
+    await e.Interaction.CreateResponseAsync(InteractionResponseType.DeferredMessageUpdate);
+    // Do things.. //
+}
+</code></pre>
+<p>If you would like to update the message when a button is pressed, however, you'd use
+@DSharpPlus.InteractionResponseType.UpdateMessage instead, and pass a
+@DSharpPlus.Entities.DiscordInteractionResponseBuilder with the new content you'd like.</p>
+<pre><code class="lang-cs">client.ComponentInteractionCreated += async (s, e) =&gt;
+{
+    await e.Interaction.CreateResponseAsync(
+        InteractionResponseType.UpdateMessage,
+        new DiscordInteractionResponseBuilder()
+            .WithContent(&quot;No more buttons for you &gt;:)&quot;));
+}
+</code></pre>
+<p>This will update the message, and remove all the buttons. Nice.</p>
+<h1 id="interactivity">Interactivity</h1>
+<p>Along with the typical @DSharpPlus.Interactivity.InteractivityExtension.WaitForMessageAsync*and
+@DSharpPlus.Interactivity.InteractivityExtension.WaitForReactionAsync* methods provided by interactivity, there are also
+button implementations as well.</p>
+<p>More information about how interactivity works can be found in <a class="xref" href="../interactivity.html">the interactivity article</a>.</p>
+<p>Since buttons create interactions, there are also two additional properties in the configuration:</p>
+<ul>
+<li>@DSharpPlus.Interactivity.InteractivityConfiguration.ResponseBehavior</li>
+<li>@DSharpPlus.Interactivity.InteractivityConfiguration.ResponseMessage</li>
+</ul>
+<p>@DSharpPlus.Interactivity.InteractivityConfiguration.ResponseBehavior is what interactivity will do when handling
+something that isn't a valid valid button, in the context of waiting for a specific button. It defaults to
+@DSharpPlus.Interactivity.Enums.InteractionResponseBehavior.Ignore, which will cause the interaction fail.</p>
+<p>Alternatively, setting it to @DSharpPlus.Interactivity.Enums.InteractionResponseBehavior.Ack will acknowledge the
+button, and continue waiting.</p>
+<p>Respond will reply with an ephemeral message with the aforementioned response message.</p>
+<p>@DSharpPlus.Interactivity.InteractivityConfiguration.ResponseBehavior only applies to the overload accepting a string id
+of the button to wait for.</p>
+<!-- LINKS -->
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/advanced_topics/buttons.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2023 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

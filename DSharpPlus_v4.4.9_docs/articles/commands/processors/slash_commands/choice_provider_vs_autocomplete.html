@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Choice Provider vs Autocomplete | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Choice Provider vs Autocomplete | DSharpPlus ">
+      
+      
+      <link rel="icon" href="../../../../images/favicon.ico">
+      <link rel="stylesheet" href="../../../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../../../public/main.css">
+      <meta name="docfx:navrel" content="../../../../toc.html">
+      <meta name="docfx:tocrel" content="../../../toc.html">
+      
+      <meta name="docfx:rel" content="../../../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/master/docs/articles/commands/processors/slash_commands/choice_provider_vs_autocomplete.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../../../index.html">
+            <img id="logo" class="svg" src="../../../../images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="articles.commands.command_processors.slash_commands.choice_provider_vs_autocomplete">
+<h1 id="choice-provider-vs-autocomplete">Choice Provider vs Autocomplete</h1>
+
+<p>What's a choice provider? How is it different from auto-complete? When should you use one over the other?</p>
+<h2 id="choice-providers">Choice Providers</h2>
+<p>Discord provides a special feature to slash command options called &quot;choices.&quot; Choices are a list of options that the user can select from. The user can select <strong>only</strong> from these choices - as in only those choices are valid - which differs from auto-complete. Unfortunately, the choices must be known and provided on startup as they're used when registering the slash command. This means that you can't dynamically change the choices at runtime.</p>
+<p><img src="../../../../images/commands_choice_provider_example.png" alt="A Discord screenshot of the lock command providing only two choices. The first choice is Send Messages, while the second choice is View Channel."></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The user <strong>must</strong> choose between <strong>only</strong> those two options. If the user tries to select something else, Discord will prevent the command from running.</p>
+</div>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>A choice provider may only provide 25 choices. If you have more than 25 choices, you should use auto-complete.</p>
+</div>
+<h2 id="autocomplete">Autocomplete</h2>
+<p>Auto-complete, on the other hand, is a feature that allows the user to type in a value and Discord will return a list of suggestions retrieved from your bot. The user can select from the list of suggestions or continue typing. This is useful when you have a large number of options or when the options are dynamic and can change at runtime.</p>
+<p><img src="../../../../images/commands_autocomplete_example.png" alt="A Discord screenshot of the tag get command. As the user types, the list of tags changes."></p>
+<p>The user can type in any text they type. As they type in the text, Discord will send a request to your bot to get the list of suggestions. The user can then select from the list of suggestions or continue typing.</p>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>The user <strong>is not required</strong> to choose from the the suggestions provided. They can send any value they want, and it's up to your bot to handle the value.</p>
+</div>
+<h2 id="which-one-should-i-use">Which one should I use?</h2>
+<p>If you have a small, fixed list of options, use a choice provider. If you have a large list of options or the list of options can change at runtime, use auto-complete.</p>
+<p>Some valid use-cases for choice providers include:</p>
+<ul>
+<li>Small Enums (Built-In support!)</li>
+<li>Media types (e.g. <code>image</code>, <code>video</code>, <code>audio</code>)</li>
+<li>The day of the week</li>
+</ul>
+<p>Some valid use-cases for autocomplete include:</p>
+<ul>
+<li>Tag names</li>
+<li>A Google search</li>
+<li>Very large enums (e.g. all the countries in the world)</li>
+</ul>
+<p>Both choice providers and auto-complete support dependency injection through the constructor.</p>
+<h2 id="implementing-a-choice-provider">Implementing a Choice Provider</h2>
+<p>Our class will implement from the <code>IChoiceProvider</code> interface. This interface has a single method: <code>ValueTask&lt;IReadOnlyDictionary&lt;string, object&gt;&gt; ProvideAsync(CommandParameter parameter)</code>. This method is only called once per command parameter on startup.</p>
+<pre><code class="lang-cs">public class DaysOfTheWeekProvider : IChoiceProvider
+{
+    private static readonly IReadOnlyDictionary&lt;string, object&gt; daysOfTheWeek = new Dictionary&lt;string, object&gt;
+    {
+        [&quot;Monday&quot;] = 1,
+        [&quot;Tuesday&quot;] = 2,
+        [&quot;Wednesday&quot;] = 3,
+        [&quot;Thursday&quot;] = 4,
+        [&quot;Friday&quot;] = 5,
+        [&quot;Saturday&quot;] = 6,
+        [&quot;Sunday&quot;] = 7
+    };
+
+    public ValueTask&lt;IReadOnlyDictionary&lt;string, object&gt;&gt; ProvideAsync(CommandParameter parameter) =&gt; ValueTask.FromResult(_daysOfTheWeek);
+}
+</code></pre>
+<p>And now we apply this choice provider to a command parameter:</p>
+<pre><code class="lang-cs">public class ScheduleCommand
+{
+    public async ValueTask ExecuteAsync(CommandContext context, [SlashChoiceProvider&lt;DaysOfTheWeekProvider&gt;] int day)
+    {
+        // ...
+    }
+}
+</code></pre>
+<h2 id="implementing-autocomplete">Implementing AutoComplete</h2>
+<p>Autocomplete is very similar in design to choice providers. Our class will implement the <code>IAutoCompleteProvider</code> interface. This interface has a single method: <code>ValueTask&lt;IReadOnlyDictionary&lt;string, object&gt;&gt; AutoCompleteAsync(AutoCompleteContext context)</code>. This method will be called everytime the <code>DiscordClient.InteractionCreated</code> is invoked with a <code>ApplicationCommandType</code> of <code>AutoCompleteRequest</code>.</p>
+<pre><code class="lang-cs">public class TagNameAutoCompleteProvider : IAutoCompleteProvider
+{
+    private readonly ITagService tagService;
+    public TagNameAutoCompleteProvider(ITagService tagService) =&gt; tagService = tagService;
+
+    public ValueTask&lt;IReadOnlyDictionary&lt;string, object&gt;&gt; AutoCompleteAsync(AutoCompleteContext context)
+    {
+        var tags = tagService.GetTags()
+            .Where(x =&gt; x.Name.StartsWith(context.UserInput, StringComparison.OrdinalIgnoreCase))
+            .ToDictionary(x =&gt; x.Name, x =&gt; x.Id);
+
+        return ValueTask.FromResult(tags);
+    }
+}
+</code></pre>
+<p>And now we apply this auto-complete provider to a command parameter:</p>
+<pre><code class="lang-cs">public class TagCommand
+{
+    public async ValueTask ExecuteAsync(CommandContext context, [SlashAutoCompleteProvider&lt;TagNameAutoCompleteProvider&gt;] string tagName)
+    {
+        // ...
+    }
+}
+</code></pre>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/master/docs/articles/commands/processors/slash_commands/choice_provider_vs_autocomplete.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2024 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Transmitting | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Transmitting | DSharpPlus ">
+      
+      
+      <link rel="icon" href="../../../images/favicon.ico">
+      <link rel="stylesheet" href="../../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../../public/main.css">
+      <meta name="docfx:navrel" content="../../../toc.html">
+      <meta name="docfx:tocrel" content="../../toc.html">
+      
+      <meta name="docfx:rel" content="../../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/audio/voicenext/transmit.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../../index.html">
+            <img id="logo" class="svg" src="../../../images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="articles.audio.voicenext.transmit">
+
+<h2 id="transmitting-with-voicenext">Transmitting with VoiceNext</h2>
+<h3 id="enable-voicenext">Enable VoiceNext</h3>
+<p>Install the <code>DSharpPlus.VoiceNext</code> package from NuGet.</p>
+<p><img src="../../../images/voicenext_transmit_01.png" alt="NuGet Package Manager"></p>
+<p>Then use the @DSharpPlus.VoiceNext.DiscordClientExtensions.UseVoiceNext* extension method on your instance of
+@DSharpPlus.DiscordClient.</p>
+<pre><code class="lang-cs">var discord = new DiscordClient();
+discord.UseVoiceNext();
+</code></pre>
+<h3 id="connect">Connect</h3>
+<p>Joining a voice channel is <em>very</em> easy; simply use the @DSharpPlus.VoiceNext.DiscordClientExtensions.ConnectAsync*
+extension method on @DSharpPlus.Entities.DiscordChannel.</p>
+<pre><code class="lang-cs">DiscordChannel channel;
+VoiceNextConnection connection = await channel.ConnectAsync();
+</code></pre>
+<h3 id="transmit">Transmit</h3>
+<p>Discord requires that we send Opus encoded stereo PCM audio data at a sample rate of 48kHz.</p>
+<p>You'll need to convert your audio source to PCM S16LE using your preferred program for media conversion, then read that
+data into a <code>Stream</code> object or an array of <code>byte</code> to be used with VoiceNext. Opus encoding of the PCM data will be done
+automatically by VoiceNext before sending it to Discord.</p>
+<p>This example will use <a href="https://ffmpeg.org/about.html">ffmpeg</a> to convert an MP3 file to a PCM stream.</p>
+<pre><code class="lang-cs">var filePath = &quot;funiculi_funicula.mp3&quot;;
+var ffmpeg = Process.Start(new ProcessStartInfo
+{
+    FileName = &quot;ffmpeg&quot;,
+    Arguments = $@&quot;-i &quot;&quot;{filePath}&quot;&quot; -ac 2 -f s16le -ar 48000 pipe:1&quot;,
+    RedirectStandardOutput = true,
+    UseShellExecute = false
+});
+
+Stream pcm = ffmpeg.StandardOutput.BaseStream;
+</code></pre>
+<p>Now that our audio is the correct format, we'll need to get a <em>transmit sink</em> for the channel we're connected to. You
+can think of the transmit stream as our direct interface with a voice channel; any data written to one will be processed
+by VoiceNext, queued, and sent to Discord which will then be output to the connected voice channel.</p>
+<pre><code class="lang-cs">VoiceTransmitSink transmit = connection.GetTransmitSink();
+</code></pre>
+<p>Once we have a transmit sink, we can 'play' our audio by copying our PCM data to the transmit sink buffer.</p>
+<pre><code class="lang-cs">await pcm.CopyToAsync(transmit);
+</code></pre>
+<p><code>Stream#CopyToAsync()</code> will copy PCM data from the input stream to the output sink, up to the sink's configured
+capacity, at which point it will wait until it can copy more. This means that the call will hold the task's execution,
+until such time that the entire input stream has been consumed, and enqueued in the sink.</p>
+<p>This operation cannot be cancelled. If you'd like to have finer control of the playback, you should instead consider
+using <code>Stream#ReadAsync()</code> and <code>VoiceTransmitSink#WriteAsync()</code> to manually copy small portions of PCM data to the
+transmit sink.</p>
+<h3 id="disconnect">Disconnect</h3>
+<p>Similar to joining, leaving a voice channel is rather straightforward.</p>
+<pre><code class="lang-cs">var vnext = discord.GetVoiceNext();
+var connection = vnext.GetConnection();
+
+connection.Disconnect();
+</code></pre>
+<h2 id="example-commands">Example Commands</h2>
+<pre><code class="lang-cs">[Command(&quot;join&quot;)]
+public async Task JoinCommand(CommandContext ctx, DiscordChannel channel = null)
+{
+    channel ??= ctx.Member.VoiceState?.Channel;
+    await channel.ConnectAsync();
+}
+
+[Command(&quot;play&quot;)]
+public async Task PlayCommand(CommandContext ctx, string path)
+{
+    var vnext = ctx.Client.GetVoiceNext();
+    var connection = vnext.GetConnection(ctx.Guild);
+
+    var transmit = connection.GetTransmitSink();
+ 
+    var pcm = ConvertAudioToPcm(path);
+    await pcm.CopyToAsync(transmit);
+    await pcm.DisposeAsync();
+}
+
+[Command(&quot;leave&quot;)]
+public async Task LeaveCommand(CommandContext ctx)
+{
+    var vnext = ctx.Client.GetVoiceNext();
+    var connection = vnext.GetConnection(ctx.Guild);
+
+    connection.Disconnect();
+}
+
+private Stream ConvertAudioToPcm(string filePath)
+{
+    var ffmpeg = Process.Start(new ProcessStartInfo
+    {
+        FileName = &quot;ffmpeg&quot;,
+        Arguments = $@&quot;-i &quot;&quot;{filePath}&quot;&quot; -ac 2 -f s16le -ar 48000 pipe:1&quot;,
+        RedirectStandardOutput = true,
+        UseShellExecute = false
+    });
+
+    return ffmpeg.StandardOutput.BaseStream;
+}
+</code></pre>
+<!-- LINKS -->
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/audio/voicenext/transmit.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2023 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

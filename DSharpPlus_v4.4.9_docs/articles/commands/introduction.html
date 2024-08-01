@@ -1,0 +1,263 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Commands Introduction | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Commands Introduction | DSharpPlus ">
+      
+      
+      <link rel="icon" href="../../images/favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/master/docs/articles/commands/introduction.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="articles.commands.introduction">
+<h1 id="commands-introduction">Commands Introduction</h1>
+
+<p><code>DSharpPlus.Commands</code> is a new universal command framework designed with a &quot;write-once, use-anywhere&quot; mindset. Previously when developing bots with DSharpPlus, you'd have to choose between text commands through <code>DSharpPlus.CommandsNext</code>, or slash commands through <code>DSharpPlus.SlashCommands</code>. With <code>DSharpPlus.Commands</code>, you can have both. This framework is designed to be easy to use, and easy to extend.</p>
+<h2 id="hello-world">Hello World</h2>
+<p>First, we're going to setup our code.</p>
+<div class="tabGroup" id="tabgroup_1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_1_main-method" role="tab" aria-controls="tabpanel_1_main-method" data-tab="main-method" tabindex="0" aria-selected="true">Main Method</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_1_service-provider" role="tab" aria-controls="tabpanel_1_service-provider" data-tab="service-provider" tabindex="-1">Service Provider</a>
+</li>
+</ul>
+<section id="tabpanel_1_main-method" role="tabpanel" data-tab="main-method">
+
+<pre><code class="lang-cs">public async Task Main(string[] args)
+{
+    string discordToken = Environment.GetEnvironmentVariable(&quot;DISCORD_TOKEN&quot;);
+    if (string.IsNullOrWhiteSpace(discordToken))
+    {
+        Console.WriteLine(&quot;Error: No discord token found. Please provide a token via the DISCORD_TOKEN environment variable.&quot;);
+        Environment.Exit(1);
+    }
+
+    DiscordClientBuilder builder = DiscordClientBuilder.CreateDefault(discordToken, TextCommandProcessor.RequiredIntents | SlashCommandProcessor.RequiredIntents);
+    DiscordClient discordClient = builder.Build();
+
+    // Use the commands extension
+    CommandsExtension commandsExtension = discordClient.UseCommands(new CommandsConfiguration()
+    {
+        DebugGuildId = Environment.GetEnvironmentVariable(&quot;DEBUG_GUILD_ID&quot;) ?? 0,
+        // The default value, however it's shown here for clarity
+        RegisterDefaultCommandProcessors = true
+    });
+
+    // Add all commands by scanning the current assembly
+    commandsExtension.AddCommands(typeof(Program).Assembly);
+    TextCommandProcessor textCommandProcessor = new(new()
+    {
+        // The default behavior is that the bot reacts to direct mentions
+        // and to the &quot;!&quot; prefix.
+        // If you want to change it, you first set if the bot should react to mentions
+        // and then you can provide as many prefixes as you want.
+        PrefixResolver = new DefaultPrefixResolver(true, &quot;?&quot;, &quot;&amp;&quot;).ResolvePrefixAsync
+    });
+
+    // Add text commands with a custom prefix (?ping)
+    await commandsExtension.AddProcessorsAsync(textCommandProcessor);
+
+    // We can specify a status for our bot. Let's set it to &quot;playing&quot; and set the activity to &quot;with fire&quot;.
+    DiscordActivity status = new(&quot;with fire&quot;, DiscordActivityType.Playing);
+
+    // Now we connect and log in.
+    await discordClient.ConnectAsync(status, DiscordUserStatus.Online);
+
+    // And now we wait infinitely so that our bot actually stays connected.
+    await Task.Delay(-1);
+}
+</code></pre>
+</section>
+<section id="tabpanel_1_service-provider" role="tabpanel" data-tab="service-provider" aria-hidden="true" hidden="hidden">
+
+<p>In the main logic of your program, we're going to register the <code>DiscordClient</code> to your service provider. I've chosen to do it like such:</p>
+<pre><code class="lang-cs">string discordToken = Environment.GetEnvironmentVariable(&quot;DISCORD_TOKEN&quot;);
+
+if (string.IsNullOrWhiteSpace(discordToken))
+{
+    Console.WriteLine(&quot;Error: No discord token found. Please provide a token via the DISCORD_TOKEN environment variable.&quot;);
+    Environment.Exit(1);
+}
+
+serviceCollection.AddDiscordClient(discordToken, TextCommandProcessor.RequiredIntents | SlashCommandProcessor.RequiredIntents);
+</code></pre>
+<p>And when your program actually starts, you'll want to register the command framework:</p>
+<pre><code class="lang-cs">DiscordClient discordClient = serviceProvider.GetRequiredService&lt;DiscordClient&gt;();
+
+// Register extensions outside of the service provider lambda since these involve asynchronous operations
+CommandsExtension commandsExtensions = discordClient.UseCommands(new CommandsConfiguration()
+{
+    DebugGuildId = Environment.GetEnvironmentVariable(&quot;DEBUG_GUILD_ID&quot;) ?? 0,
+    // The default value, however it's shown here for clarity
+    RegisterDefaultCommandProcessors = true
+});
+
+// Add all commands by scanning the current assembly
+commandsExtension.AddCommands(typeof(Program).Assembly);
+TextCommandProcessor textCommandProcessor = new(new()
+{
+    // The default behavior is that the bot reacts to direct mentions
+    // and to the &quot;!&quot; prefix.
+    // If you want to change it, you first set if the bot should react to mentions
+    // and then you can provide as many prefixes as you want.
+    PrefixResolver = new DefaultPrefixResolver(true, &quot;?&quot;, &quot;&amp;&quot;).ResolvePrefixAsync
+});
+
+// Add text commands with a custom prefix (?ping)
+await commandsExtension.AddProcessorsAsync(textCommandProcessor);
+
+// We can specify a status for our bot. Let's set it to &quot;playing&quot; and set the activity to &quot;with fire&quot;.
+DiscordActivity status = new(&quot;with fire&quot;, DiscordActivityType.Playing);
+
+// Now we connect and log in.
+await discordClient.ConnectAsync(status, DiscordUserStatus.Online);
+
+// And now we wait infinitely so that our bot actually stays connected.
+await Task.Delay(-1);
+
+</code></pre>
+</section>
+</div>
+
+<p>Let's break this down a bit:</p>
+<ul>
+<li>We use each processor's required intents to ensure that the extension receives the necessary gateway events and data to function properly.</li>
+<li>We register all the commands in our bot by passing the bot's assembly to <code>AddCommands</code>. This will scan the assembly for any classes (group commands) or methods that have the <code>Command</code> attribute, and register them as commands.</li>
+<li>We register the <code>TextCommandProcessor</code> processor with a custom prefix resolver.</li>
+</ul>
+<p>What in the world is a command processor? In order to execute a command, we need to be able to parse the input. Text commands are regular old Discord messages, while slash commands are a special type of event that Discord sends to your bot. The <code>TextCommandProcessor</code> and <code>SlashCommandProcessor</code> are responsible for parsing these inputs and determining which command to execute. By default, all processors are registered with the command framework. You can add/create your own processors if you need to.</p>
+<h2 id="creating-a-command">Creating A Command</h2>
+<p>Now that we have the command framework registered and configured, we can create our first command:</p>
+<pre><code class="lang-cs">public class PingCommand
+{
+    [Command(&quot;ping&quot;)]
+    public static ValueTask ExecuteAsync(CommandContext context) =&gt; context.RespondAsync($&quot;Pong! Latency is {context.Client.Ping}ms.&quot;);
+}
+</code></pre>
+<p>There's multiple things to note here:</p>
+<ul>
+<li>There is no longer a <code>BaseCommandModule</code> class to inherit from. This is because the command framework is now attribute-based.</li>
+<li>Your commands may now be <code>static</code>.</li>
+<li>Your command return type may now be <code>ValueTask</code> or <code>Task</code>, instead of only limiting to <code>Task</code>.</li>
+<li>By default, any response made via <code>CommandContext</code> will not mention any user or role - those mentions must be specified manually by using a <code>DiscordMessageBuilder</code>.</li>
+</ul>
+<p>Now start your Discord client, and type <code>!ping</code> in a text channel. Your bot should respond with &quot;Pong! Latency is {Number}ms.&quot;</p>
+<p><img src="../../images/commands_ping_command_demonstration.png" alt="Ping command demonstration via text commands and slash commands."></p>
+<h2 id="creating-a-group-command">Creating a Group Command</h2>
+<p>Creating a group command isn't much different:</p>
+<pre><code class="lang-cs">[Command(&quot;math&quot;)]
+public class MathCommands
+{
+    [Command(&quot;add&quot;)]
+    public static ValueTask AddAsync(CommandContext context, int a, int b) =&gt; context.RespondAsync($&quot;{a} + {b} = {a + b}&quot;);
+
+    [Command(&quot;subtract&quot;)]
+    public static ValueTask SubtractAsync(CommandContext context, int a, int b) =&gt; context.RespondAsync($&quot;{a} - {b} = {a - b}&quot;);
+}
+</code></pre>
+<p>You can invoke these commands by typing <code>!math add 5 3</code> or <code>!math subtract 5 3</code> in a text channel.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/master/docs/articles/commands/introduction.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2024 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

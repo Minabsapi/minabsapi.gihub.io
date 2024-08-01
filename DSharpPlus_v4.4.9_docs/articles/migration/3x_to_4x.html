@@ -1,0 +1,341 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Migration 3.x - 4.x | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Migration 3.x - 4.x | DSharpPlus ">
+      
+      
+      <link rel="icon" href="../../images/favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/migration/3x_to_4x.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="articles.migration.3x_to_4x">
+
+<h2 id="migration-from-3x-to-4x">Migration From 3.x to 4.x</h2>
+<h3 id="proxy-support">Proxy Support</h3>
+<p>The client now supports proxies for both WebSocket and HTTP traffic. To proxy your traffic, create a new instance of
+<code>System.Net.WebProxy</code> and assign it to @DSharpPlus.DiscordConfiguration.Proxy property.</p>
+<h3 id="module-rename">Module Rename</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">3.x</th>
+<th style="text-align: center;">4.x</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>CommandsNextModule</code></td>
+<td style="text-align: center;"><code>CommandsNextExtension</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>InteractivityModule</code></td>
+<td style="text-align: center;"><code>InteractivityExtension</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>VoiceNextClient</code></td>
+<td style="text-align: center;"><code>VoiceNextExtension</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>BaseModule</code></td>
+<td style="text-align: center;"><code>BaseExtension</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="intents">Intents</h3>
+<p>Due to a change by Discord on their V8 endpoint which DSharpPlus targets, in order to recieve events, intents will have
+to be enabled in both the @DSharpPlus.DiscordConfiguration and the Discord Application Portal. We have an <a class="xref" href="../beyond_basics/intents.html">article</a>
+that covers all that has to be done to set this up.</p>
+<h3 id="event-handlers">Event Handlers</h3>
+<p>The signitures for all the event handlers have changed to have 2 parameters instead of one. Please refer to this
+<a class="xref" href="../beyond_basics/events.html">article</a> for the changes.</p>
+<h3 id="entity-mutation-changes">Entity mutation changes</h3>
+<p>Entity updating methods now take an action which mutates the state of the object, instead of taking large lists of
+arguments. This means that instead of updating e.g. a role like this:</p>
+<pre><code class="lang-cs">await role.UpdateAsync(name: &quot;Modified Role&quot;, color: new DiscordColor(0xFF00FF));
+</code></pre>
+<p>you will update it like this:</p>
+<pre><code class="lang-cs">await role.UpdateAsync(x =&gt;
+{
+    x.Name = &quot;Modified Role&quot;;
+    x.Color = new DiscordColor(0xFF00FF);
+});
+</code></pre>
+<h3 id="sendmessageasync-and-sendfileasync-methods">SendMessageAsync and SendFileAsync Methods</h3>
+<p>We now have a message builder that will handle any advanced creating and modifing of messages. Below are the overloads
+for sending and modifing messages:</p>
+<ol>
+<li>Sending Messages</li>
+</ol>
+<ul>
+<li><code>.SendMessageAsync(DiscordChannel, DiscordEmbed)</code></li>
+<li><code>.SendMessageAsync(DiscordChannel, System.String)</code></li>
+<li><code>.SendMessageAsync(DiscordChannel, System.String,DiscordEmbed)</code></li>
+<li><code>.SendMessageAsync(DiscordChannel, DiscordMessageBuilder)</code></li>
+</ul>
+<ol start="2">
+<li>Modifying Messages</li>
+</ol>
+<ul>
+<li><code>DiscordMessage.ModifyAsync(DSharpPlus.Entities.Optional&lt;DSharpPlus.Entities.DiscordEmbed&gt;)</code></li>
+<li><code>DiscordMessage.ModifyAsync(DSharpPlus.Entities.Optional&lt;string&gt;)</code></li>
+<li><code>DiscordMessage.ModifyAsync(DSharpPlus.Entities.Optional&lt;string&gt;, DSharpPlus.Entities.Optional&lt;DSharpPlus.Entities.DiscordEmbed&gt;)</code></li>
+<li><code>DiscordMessage.ModifyAsync(DSharpPlus.Entities.DiscordMessageBuilder)</code></li>
+</ul>
+<p>Using the @DSharpPlus.Entities.DiscordMessageBuilder can be found <a class="xref" href="../beyond_basics/messagebuilder.html">here</a>.</p>
+<h3 id="logging-changes">Logging Changes</h3>
+<p>Logging was overhauled and now some of the Properties on @DSharpPlus.DiscordConfiguration along with some of the events
+on @DSharpPlus.DiscordClient are Gone/Modified/Added. Below is a listing of what changed:</p>
+<ul>
+<li>**@DSharpPlus.DiscordConfiguration.LoggerFactory** - this is where you can specify your own logging factory to help
+augment the output of the log messages, redirect the output to other locations, etc.</li>
+<li>**@DSharpPlus.DiscordConfiguration.MinimumLogLevel** - this replaces LogLevel</li>
+<li><strong>DebugLogger</strong> - this has been removed.</li>
+<li><strong>UseInternalLogHandler</strong> - this has been removed.</li>
+<li><strong>DebugLogMessageEventArgs</strong> - this event has been removed.</li>
+</ul>
+<p>We have also created an <a class="xref" href="../beyond_basics/logging/default.html">article</a> on how to setup the new logger.</p>
+<h3 id="other-minor-changes">Other minor changes</h3>
+<ul>
+<li><strong>User DM handling</strong> - Users can no longer be DM'd directly. Instead, you will need to find a member object for the
+user you want to DM, then use the appropriate methods on the member object.</li>
+<li><strong>Channel permission override enhancements</strong> - You can now query the member or role objects for each permission
+override set on channels. Furthermore, the overwrite building is now more intuitive.</li>
+<li><strong>Indefinite reconnecting</strong> - the client can now be configured to attempt reconnecting indefinitely.</li>
+<li><strong>Channel.Users</strong> - you can now query users in voice and text channels by using
+@DSharpPlus.Entities.DiscordChannel.Users property.</li>
+<li><strong>SendFileAsync argument reordering</strong> - arguments for these methods were reordered to prevent overload confusion.</li>
+<li><strong>New Discord features</strong> - support for animated emoji and slow mode.</li>
+</ul>
+<h2 id="commandsnext">CommandsNext</h2>
+<p>There were several major changes made to CommandsNext extension. While basics remain the same, some finer details are
+different.</p>
+<h3 id="multiprefix-support">Multiprefix support</h3>
+<p>Prefixes are now configured via @DSharpPlus.CommandsNext.CommandsNextConfiguration.StringPrefixes instead of old
+<code>StringPrefix</code> property. Prefixes passed in this array will all function at the same time. At the same time,
+@DSharpPlus.CommandsNext.CommandContext class has been augmented with @DSharpPlus.CommandsNext.CommandContext.Prefix
+property, which allows for checking which prefix was used to trigger the command. Furthermore, the new
+@DSharpPlus.CommandsNext.Attributes.RequirePrefixesAttribute can be used as a check to require a specific prefix to be
+used with a command.</p>
+<h3 id="command-hiding-inheritance">Command hiding inheritance</h3>
+<p>Much like checks, the @DSharpPlus.CommandsNext.Attributes.HiddenAttribute is now inherited in modules which are not
+command groups.</p>
+<h3 id="support-for-nullablet-and-systemuri-conversion">Support for <code>Nullable&lt;T&gt;</code> and <code>System.Uri</code> conversion</h3>
+<p>The default argument converters have been augmented to allow for conversion of nullable value types. No further
+configuration is required.</p>
+<p>Furthermore, native support for <code>System.Uri</code> type now exists as well.</p>
+<h3 id="dependency-injection-changes">Dependency Injection changes</h3>
+<p>CommandsNext now uses Microsoft's Dependency Injection abstractions, which greatly enhances flexibility, as well as
+allows 3rd party service containers to be used. For more information, see <a class="xref" href="../commands/dependency_injection.html">Dependency injection</a> page.</p>
+<h3 id="command-overloads-and-group-commands">Command overloads and group commands</h3>
+<p>Command overloads are now implemented. This means you can create a command which takes multiple various argument type
+configurations. This is done by creating several commands and giving them all the same name.</p>
+<p>Overloads need to have unique argument configurations, which means that it is possible to create commands which use the
+same argument types in different order (e.g. <code>int, string</code> and <code>string, int</code>), however you cannot create two overloads
+which have the same argument types and order.</p>
+<p>Checks are pooled between all overloads, which means that specifying the same check on every overload will make it run
+several times; if you apply a check to a single overload, it will apply to all of them.</p>
+<p>Group command is also done by marking a command with @DSharpPlus.CommandsNext.Attributes.GroupCommandAttribute instead
+of regular <code>CommandAttribute</code>. They can also be overloaded.</p>
+<h3 id="common-module-base">Common module base</h3>
+<p>All command modules are now required to inherit from @DSharpPlus.CommandsNext.BaseCommandModule. This also enables the
+modules to use @DSharpPlus.CommandsNext.BaseCommandModule.BeforeExecutionAsync(DSharpPlus.CommandsNext.CommandContext)
+and @DSharpPlus.CommandsNext.BaseCommandModule.AfterExecutionAsync(DSharpPlus.CommandsNext.CommandContext).</p>
+<h3 id="module-lifespans">Module lifespans</h3>
+<p>It is now possible to create transient command modules. As opposed to regular singleton modules, which are instantiated
+upon registration, these modules are instantiated before every command call, and are disposed shortly after.</p>
+<p>Combined with dependency injection changes, this enables the usage of transient and scoped modules.</p>
+<p>For more information, see <a class="xref" href="../commands/dependency_injection.html#modules">Module lifespans</a> page.</p>
+<h3 id="help-formatter-changes">Help formatter changes</h3>
+<p>Help formatter is now lower level, because it now receives a command object and a group object. Furthermore, they are
+now also subject to dependency injection, receiving services and command context via DI.</p>
+<p>Default help module is also transient, allowing it to take advantage of more advanced DI usages.</p>
+<p>If you need to implement a custom help formatter, see <a class="xref" href="../commands/help_formatter.html">Custom Help Formatter</a>.</p>
+<h3 id="custom-command-handlers">Custom command handlers</h3>
+<p>You can now disabe the built-in command handler, and create your own. For more information, see
+<a class="xref" href="../commands/command_handler.html">Custom Command Handlers</a>.</p>
+<h3 id="minor-changes">Minor changes</h3>
+<ul>
+<li><strong>Case-insensitivity changes</strong> - case insensitivity now applies to command name matching, prefix matching, and
+argument conversions.</li>
+<li><strong>DM help</strong> - Default help can now be routed to DMs.</li>
+<li><strong>Custom attributes on commands</strong> - CommandsNext now exposes all custom attributes declared on commands, groups, and
+modules.</li>
+<li><strong>Implicit naming</strong> - Commands can be named from their method or class name, by not giving it a name in the Command or
+Group attribute.</li>
+<li><strong>Argument converters are now asynchronous</strong> - this allows using async code in converters.</li>
+</ul>
+<h2 id="interactivity">Interactivity</h2>
+<p>Interactivity went through an extensive rewrite and many methods were changed:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>CollectReactionsAsync</code></td>
+<td style="text-align: left;">Different return value</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>CreatePollAsync</code></td>
+<td style="text-align: left;">Changed to <code>DoPollAsync</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>SendPaginatedMessage</code></td>
+<td style="text-align: left;">Changed to <code>SendPaginatedMessageAsync</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>GeneratePagesInEmbeds</code></td>
+<td style="text-align: left;">New parameter.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>GeneratePagesInStrings</code></td>
+<td style="text-align: left;">New parameter.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>GeneratePaginationReactions</code></td>
+<td style="text-align: left;">Removed.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>DoPagination</code></td>
+<td style="text-align: left;">Removed.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>WaitForMessageReactionAsync</code></td>
+<td style="text-align: left;">Changed to <code>WaitForReactionAsync</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>WaitForTypingUserAsync</code></td>
+<td style="text-align: left;">Changed to <code>WaitForUserTypingAsync</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>WaitForTypingChannelAsync</code></td>
+<td style="text-align: left;">Changed to <code>WaitForTypingAsync</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="voicenext">VoiceNext</h2>
+<p>VoiceNext went through a substantial rewrite. Below are some of the key highlights:</p>
+<ul>
+<li>Implemented support for Voice Gateway v4</li>
+<li>Implemented support for lite and suffix encryption mode</li>
+<li>Improved performance</li>
+<li>Replaced old voice sending API with new stream-based transmit API that is non-blocking and has built-in support for
+Changing volume levels.</li>
+<li>Automatic sending of silence packets on connection to enable incoming voice</li>
+<li>Incoming voice now properly maintains an Opus decoder per source</li>
+<li>Packet loss is now concealed via Opus FEC (if possible) or silence packets</li>
+<li>VoiceNext will now properly send and process UDP keepalive packets</li>
+<li>UDP and WebSocket ping values are now exposed on VoiceNextConnection objects</li>
+<li>Voice OP12 and 13 (user join and leave respectively) are now supported and exposed on VoiceNextConnection objects.</li>
+</ul>
+<h2 id="lavalink">Lavalink</h2>
+<p>The library now comes with a Lavalink client, which supports both Lavalink 2.x and 3.x.</p>
+<p>Lavalink is a standalone lightweight Java application, which handles downloading, transcoding, and transmitting audio to
+Discord. For more information, see the <a class="xref" href="../audio/lavalink/setup.html">Lavalink</a> article.</p>
+<!-- LINKS -->
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/migration/3x_to_4x.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2023 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Migration 2.x - 3.x | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Migration 2.x - 3.x | DSharpPlus ">
+      
+      
+      <link rel="icon" href="../../images/favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/migration/2x_to_3x.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="articles.migration.2x_to_3x">
+<h1 id="migration-from-2x-to-3x">Migration From 2.x to 3.x</h1>
+
+<p>Major breaking changes:</p>
+<ul>
+<li>Most classes were organized into namespaces.</li>
+<li>Several classes and methods were renamed to maintain consistency with the rest of the library.</li>
+<li>All events were renamed to be in the past tense.</li>
+<li>@DSharpPlus.Entities.DiscordEmbed instances are no longer constructed directly.
+<ul>
+<li>Instead, they are built using a @DSharpPlus.Entities.DiscordEmbedBuilder.</li>
+</ul>
+</li>
+<li>All colors are now passed as instances of @DSharpPlus.Entities.DiscordColor.</li>
+<li>Command modules are now based on an abstract class rather than an interface.</li>
+<li>A brand-new ratelimit handler has been implemented.</li>
+</ul>
+<h2 id="fixing-namespace-issues">Fixing namespace issues</h2>
+<p>Entities such as @DSharpPlus.Entities.DiscordUser, @DSharpPlus.Entities.DiscordChannel, and similar are in the
+@DSharpPlus.Entities namespace, exceptions in @DSharpPlus.Exceptions, event arguments in @DSharpPlus.EventArgs, and
+network components in @DSharpPlus.Net.</p>
+<p>Be sure to add these namespaces to your <code>using</code> directives as needed.</p>
+<h2 id="class-method-and-event-renames">Class, Method, and Event Renames</h2>
+<p>Several classes and methods were renamed to fit the current naming scheme in the library.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">2.x</th>
+<th style="text-align: center;">3.x</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>DiscordConfig</code></td>
+<td style="text-align: center;"><code>DiscordConfiguration</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>CommandExecutedEventArgs</code></td>
+<td style="text-align: center;"><code>CommandExecutionEventArgs</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>SnowflakeObject.CreationDate</code></td>
+<td style="text-align: center;"><code>SnowflakeObject.CreationTimestamp</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>VoiceReceivedEventArgs</code></td>
+<td style="text-align: center;"><code>VoiceReceiveEventArgs</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>DiscordMessage.EditAsync()</code></td>
+<td style="text-align: center;"><code>DiscordMessage.ModifyAsync()</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>SocketDisconnectEventArgs</code></td>
+<td style="text-align: center;"><code>SocketCloseEventArgs</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>DiscordMember.TakeRoleAsync()</code></td>
+<td style="text-align: center;"><code>DiscordMember.RevokeRoleAsync()</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>MessageReactionRemoveAllEventArgs</code></td>
+<td style="text-align: center;"><code>MessageReactionsClearEventArgs</code></td>
+</tr>
+</tbody>
+</table>
+<p>Additionally, all events received a rename to maintain consistent naming across the library with many receiving an <em>d</em>
+or <em>ed</em> to the end of their name.</p>
+<h2 id="embed-woes">Embed woes</h2>
+<p>Embeds can no longer be constructed or modified directly. Instead, you have to use the embed builder. For the most part,
+this can be achieved using Find/Replace and doing <code>new DiscordEmbed</code> -&gt; <code>new DiscordEmbedBuilder</code>.</p>
+<p>On top of that, to add fields to an embed, you no longer create a new list for fields and assign it to
+@DSharpPlus.Entities.DiscordEmbedBuilder.Fields, but instead you use the
+@DSharpPlus.Entities.DiscordEmbedBuilder.AddField* method on the builder.</p>
+<p>To modify an existing embed, pass said embed to builder's constructor. The builder will use it as a prototype.</p>
+<h2 id="color-changes">Color changes</h2>
+<p>This one is easy to fix for the most part. For situation where you were doing e.g. <code>Color = 0xC0FFEE</code>, you now do
+<code>Color = new DiscordColor(0xC0FFEE)</code>. This has the added advantage of letting you create a color from 3 RGB values or
+parse an RGB string.</p>
+<h2 id="default-channel-removal">Default channel removal</h2>
+<p><code>DefaultChannel</code> no longer exists on guilds, and, as such, <code>DiscordGuild.CreateInviteAsync()</code> is also gone, as it relied
+on that property.</p>
+<p>The new concept of &quot;default&quot; channel is a fallback, and is basically top channel the user can see. In the library this
+is facilitated via <code>DiscordGuild.GetDefaultChannel()</code>.</p>
+<h2 id="module-changes">Module changes</h2>
+<p>The <code>IModule</code> interface was removed, and replaced with <code>BaseModule</code> class. The most notable change is that your module
+should no longer define the field which holds your instance of @DSharpPlus.DiscordClient, as that's on the base class
+itself. On top of that, you need to change modifiers of <code>.Setup()</code> from <code>public</code> to <code>protected internal override</code>.</p>
+<h2 id="new-ratelimit-handler">New ratelimit handler</h2>
+<p>This does not actually cause any in-code changes, however the behavior of the REST client and the way requests are
+handled changes drastically.</p>
+<p>The new handler is thread-safe, and uses queueing to handle REST requests, and should bucket requests properly now.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/migration/2x_to_3x.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2023 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Dependency Injection | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Dependency Injection | DSharpPlus ">
+      
+      
+      <link rel="icon" href="../../images/favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/commands/dependency_injection.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="articles.commands.dependency_injection">
+
+<h2 id="dependency-injection">Dependency Injection</h2>
+<p>As you begin to write more complex commands, you'll find that you need a way to get data in and out of them. Although
+you <em>could</em> use <code>static</code> fields to accomplish this, the preferred solution would be <em>dependency injection</em>.</p>
+<p>This would involve placing all required object instances and types (referred to as <em>services</em>) in a container, then
+providing that container to CommandsNext. Each time a command module is instantiated, CommandsNext will then attempt to
+populate constructor parameters, <code>public</code> properties, and <code>public</code> fields exposed by the module with instances of
+objects from the service container - it is recommended you use constructor parameters for dependency injection.</p>
+<p>We'll go through a simple example of this process to help you understand better.</p>
+<h3 id="create-a-service-provider">Create a Service Provider</h3>
+<p>To begin, we'll need to create a service provider; this will act as the container for the services you need for your
+commands. Create a new variable just before you register CommandsNext with your @DSharpPlus.DiscordClient and assign it
+a new instance of <code>ServiceCollection</code>.</p>
+<pre><code class="lang-cs">var discord = new DiscordClient();
+var services = new ServiceCollection(); // Right here!
+var commands = discord.UseCommandsNext();
+</code></pre>
+<p>We'll use <code>.AddSingleton</code> to add type <code>Random</code> to the collection, then chain that call with the
+<code>.BuildServiceProvider()</code> extension method. The resulting type will be <code>ServiceProvider</code>.</p>
+<pre><code class="lang-cs">var services = new ServiceCollection()
+    .AddSingleton&lt;Random&gt;()
+    .BuildServiceProvider();
+</code></pre>
+<p>Then we'll need to provide CommandsNext with our services.</p>
+<pre><code class="lang-cs">var commands = discord.UseCommandsNext(new CommandsNextConfiguration()
+{
+    Services = services
+});
+</code></pre>
+<h3 id="using-your-services">Using Your Services</h3>
+<p>Now that we have our services set up, we're able to use them in commands. We'll be tweaking our
+<a class="xref" href="intro.html#argument-converters">random number command</a> to demonstrate.</p>
+<p>Add a new property to the command module named <em>Rng</em>. Make sure it has a <code>public</code> setter.</p>
+<pre><code class="lang-cs">public class MyFirstModule : BaseCommandModule
+{
+    public Random Rng { private get; set; } // Implied public setter.
+
+    // ...
+}
+</code></pre>
+<p>Modify the <em>random</em> command to use our property.</p>
+<pre><code class="lang-cs">[Command(&quot;random&quot;)]
+public async Task RandomCommand(CommandContext ctx, int min, int max)
+{
+    await ctx.RespondAsync($&quot;Your number is: {Rng.Next(min, max)}&quot;);
+}
+</code></pre>
+<p>Then we can give it a try!</p>
+<p><img src="../../images/commands_dependency_injection_01.png" alt="Command Execution"></p>
+<p>CommandsNext has automatically injected our singleton <code>Random</code> instance into the <code>Rng</code> property when our command module
+was instantiated. Now, for any command that needs <code>Random</code>, we can simply declare one as a property, field, or in the
+module constructor and CommandsNext will take care of the rest. Ain't that neat?</p>
+<h2 id="lifespans">Lifespans</h2>
+<h3 id="modules">Modules</h3>
+<p>By default, all command modules have a singleton lifespan; this means each command module is instantiated once for the
+lifetime of the CommandsNext instance. However, if the reuse of a module instance is undesired, you also have the option
+to change the lifespan of a module to <em>transient</em> using the @DSharpPlus.CommandsNext.Attributes.ModuleLifespanAttribute.</p>
+<pre><code class="lang-cs">[ModuleLifespan(ModuleLifespan.Transient)]
+public class MyFirstModule : BaseCommandModule
+{
+    // ...
+}
+</code></pre>
+<p>Transient command modules are instantiated each time one of its containing commands is executed.</p>
+<h3 id="services">Services</h3>
+<p>In addition to the <code>.AddSingleton()</code> extension method, you're also able to use the <code>.AddScoped()</code> and <code>.AddTransient()</code>
+extension methods to add services to the collection. The extension method chosen will affect when and how often the
+service is instantiated. Scoped and transient services should only be used in transient command modules, as singleton
+modules will always have their services injected once.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Lifespan</th>
+<th style="text-align: left;">Instantiated</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Singleton</td>
+<td style="text-align: left;">One time when added to the collection.</td>
+</tr>
+<tr>
+<td style="text-align: center;">Scoped</td>
+<td style="text-align: left;">Once for each command module.</td>
+</tr>
+<tr>
+<td style="text-align: center;">Transient</td>
+<td style="text-align: left;">Each time its requested.</td>
+</tr>
+</tbody>
+</table>
+<!-- LINKS -->
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/commands/dependency_injection.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2023 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

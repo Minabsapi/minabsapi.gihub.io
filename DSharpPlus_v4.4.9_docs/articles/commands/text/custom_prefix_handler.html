@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Custom Prefix Handler | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Custom Prefix Handler | DSharpPlus ">
+      
+      
+      <link rel="icon" href="../../../images/favicon.ico">
+      <link rel="stylesheet" href="../../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../../public/main.css">
+      <meta name="docfx:navrel" content="../../../toc.html">
+      <meta name="docfx:tocrel" content="../../toc.html">
+      
+      <meta name="docfx:rel" content="../../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/master/docs/articles/commands/text/custom_prefix_handler.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../../index.html">
+            <img id="logo" class="svg" src="../../../images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="articles.commands.text.custom_prefix_handler">
+<h1 id="adding-dynamic-prefixes">Adding dynamic prefixes</h1>
+
+<p>Prefixes are commonplace among Discord bots, and are used to determine if a message is a command or not. By default, DSharpPlus uses the <code>!</code> prefix, but you can change this to whatever you want. However, what if you want to have different prefixes for different servers? This is where custom prefix handlers come in.</p>
+<p>There are two manners of going about this; you can either use a prefix resolver delegate, or implement the <code>IPrefixResolver</code> interface. The former is simpler, but the latter is more powerful.</p>
+<h2 id="prefix-resolver-delegate">Prefix resolver delegate</h2>
+<p>The prefix resolver delegate is very simple to use. Any method that can be converted into a <code>Func&lt;CommandsExtension, DiscordMessage, ValueTask&lt;int&gt;&gt;</code> (a method that takes a <code>CommandsExtension</code> and a <code>DiscordMessage</code>, and returns a <code>ValueTask&lt;int&gt;</code>) can be used as a prefix resolver delegate. This method will be called for every message, and the return value will be used as the prefix length. If the return value is -1, the message will be ignored.</p>
+<p>The default prefix resolver uses the <code>!</code> prefix. To change this, you can use the following code:</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Lambdas generated via reflection or compiled expressions should be compiled to <code>ResolvePrefixDelegateAsync</code>. Compiling to <code>Func&lt;CommandsExtension, DiscordMessage, ValueTask&lt;int&gt;&gt;</code> will result in a runtime exception.</p>
+</div>
+<pre><code class="lang-cs">
+DefaultPrefixResolver prefixResolver = new DefaultPrefixResolver(true, &quot;!&quot;, &quot;?&quot;);
+
+TextCommandProcessor textCommandProcessor = new(new()
+{
+    // The default behavior is that the bot reacts to direct mentions
+    // and to the &quot;!&quot; prefix.
+    // If you want to change it, you first set if the bot should react to mentions
+    // and then you can provide as many prefixes as you want.
+    PrefixResolver = prefixResolver.ResolvePrefixAsync
+});
+</code></pre>
+<p>In this example, the bot will react to mentions and to the <code>!</code> and <code>?</code> prefixes. The <code>true</code> argument in the <code>DefaultPrefixResolver</code> constructor specifies that the bot should react to mentions.</p>
+<h2 id="iprefixresolver">IPrefixResolver</h2>
+<p>The <code>IPrefixResolver</code> interface is a bit more complex to set up, but can make dynamic prefixes easier overall. The interface is as follows:</p>
+<pre><code class="lang-cs">public interface IPrefixResolver
+{
+    ValueTask&lt;int&gt; ResolvePrefixAsync(CommandsExtension extension, DiscordMessage message);
+}
+</code></pre>
+<p>On the surface, this is very similar to setting the delegate property, however implementing the interface allows you to participate in dependency injection.</p>
+<p>A common scenario is using a database to retrieve a per-server prefix.
+Here's an example of how you can implement the <code>IPrefixResolver</code> interface:</p>
+<pre><code class="lang-cs">public class CustomPrefixResolver(IDatabaseService database) : IPrefixResolver
+{
+    public async ValueTask&lt;int&gt; ResolvePrefixAsync(CommandsExtension extension, DiscordMessage message)
+    {
+        if (string.IsNullOrWhiteSpace(message.Content))
+        {
+            return -1;
+        }
+        // Mention check
+        else if (this.AllowMention &amp;&amp; message.Content.StartsWith(extension.Client.CurrentUser.Mention, StringComparison.OrdinalIgnoreCase))
+        {
+            return extension.Client.CurrentUser.Mention.Length;
+        }
+        
+        // Database check
+        string prefix = await database.GetPrefixAsync(message.Channel.GuildId);
+        
+        if (message.Content.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+        {
+            return prefix.Length;
+        }
+        
+        return -1;
+    }
+}
+</code></pre>
+<p>Now, unlike the normal prefix resolver delegate, this isn't set on the TextCommandConfiguration. Instead, you'll register this class with your service provider. This allows you to inject dependencies into your prefix resolver.</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>The prefix resolver is resolved from a scoped service provider. For most scenarios, the only stipulation is that state should be held in an external, more persistent (e.g. singleton) service. Users of EntityFramework Core should ensure that the DbContext is scoped correctly.</p>
+</div>
+<pre><code class="lang-cs">DiscordClientBuilder builder = DiscordClientBuilder.CreateDefault(discordToken, TextCommandProcessor.RequiredIntents | SlashCommandProcessor.RequiredIntents)
+.ConfigureServices
+(
+    services =&gt;
+    {
+        services.AddScoped&lt;IPrefixResolver, CustomPrefixResolver&gt;();
+    }
+);
+</code></pre>
+<p>And just like that, you're off to the races.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/master/docs/articles/commands/text/custom_prefix_handler.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2024 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

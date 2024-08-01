@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Your First Bot | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Your First Bot | DSharpPlus ">
+      
+      
+      <link rel="icon" href="../../images/favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/basics/first_bot.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="articles.basics.first_bot">
+<h1 id="your-first-bot">Your First Bot</h1>
+
+<blockquote>
+</blockquote>
+<div class="NOTE">
+<h5>Note</h5>
+<p>This article assumes the following:</p>
+<ul>
+<li>You have <a class="xref" href="bot_account.html" title="Creating a Bot Account">created a bot account</a> and have a bot token.</li>
+<li>You have <a href="https://visualstudio.microsoft.com/vs/">Visual Studio</a> installed on your computer.</li>
+</ul>
+</div>
+<h2 id="create-a-project">Create a Project</h2>
+<p>Open up Visual Studio and click on <code>Create a new project</code> towards the bottom right.</p>
+<p><img src="../../images/basics_first_bot_01.png" alt="Visual Studio Start Screen"></p>
+<p>Select <code>Console App</code> then click on the <code>Next</code> button.</p>
+<p><img src="../../images/basics_first_bot_02.png" alt="New Project Screen"></p>
+<p>Next, you'll give your project a name. For this example, we'll name it <code>MyFirstBot</code>. If you'd like, you can also change
+the directory that your project will be created in.</p>
+<p>Enter your desired project name, then click on the <code>Create</code> button.</p>
+<p><img src="../../images/basics_first_bot_03.png" alt="Name Project Screen"></p>
+<p>Voilà! Your project has been created!</p>
+<p><img src="../../images/basics_first_bot_04.png" alt="Visual Studio IDE"></p>
+<h2 id="install-package">Install Package</h2>
+<p>Now that you have a project created, you'll want to get DSharpPlus installed.
+Locate the <em>solution explorer</em> on the right side, then right click on <code>Dependencies</code> and select <code>Manage NuGet Packages</code>
+from the context menu.</p>
+<p><img src="../../images/basics_first_bot_05.png" alt="Dependencies Context Menu"></p>
+<p>You'll then be greeted by the NuGet package manager.</p>
+<p>Select the <code>Browse</code> tab towards the top left, then type <code>DSharpPlus</code> into the search text box.</p>
+<p><img src="../../images/basics_first_bot_06.png" alt="NuGet Package Search"></p>
+<p>The first results should be the six DSharpPlus packages.</p>
+<p><img src="../../images/basics_first_bot_07.png" alt="Search Results"></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Package</th>
+<th style="text-align: center;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>DSharpPlus</code></td>
+<td style="text-align: center;">Main package; Discord API client.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>DSharpPlus.CommandsNext</code></td>
+<td style="text-align: center;">Add-on which provides a command framework.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>DSharpPlus.SlashCommands</code></td>
+<td style="text-align: center;">Add-on which provides an application command framework.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>DSharpPlus.Interactivity</code></td>
+<td style="text-align: center;">Add-on which allows for interactive commands.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>DSharpPlus.Lavalink</code></td>
+<td style="text-align: center;">Client implementation for <a class="xref" href="../audio/lavalink/setup.html">Lavalink</a>. Useful for music bots.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>DSharpPlus.VoiceNext</code></td>
+<td style="text-align: center;">Add-on which enables connectivity to Discord voice channels.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>DSharpPlus.Rest</code></td>
+<td style="text-align: center;">REST-only Discord client.</td>
+</tr>
+</tbody>
+</table>
+<p>We'll only need the <code>DSharpPlus</code> package for the basic bot we'll be writing in this article. Select it from the list
+then click the <code>Install</code> button to the right (after verifing that you will be installing the <strong>latest version</strong>).</p>
+<p><img src="../../images/basics_first_bot_08.png" alt="Install DSharpPlus"></p>
+<p>You're now ready to write some code!</p>
+<h2 id="first-lines-of-code">First Lines of Code</h2>
+<p>DSharpPlus implements the <a href="https://docs.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/consuming-the-task-based-asynchronous-pattern">Task-based Asynchronous Pattern</a>. Because of this, the majority of DSharpPlus methods must be
+executed in a method marked as <code>async</code> so they can be properly <code>await</code>ed.</p>
+<p>We will therefore proceed to mark our <code>Main</code> method as <code>async</code>, which also means it has to return <code>Task</code> instead of <code>void</code>.</p>
+<p>Head back to your <em>Program.cs</em> tab and edit the method as discussed.</p>
+<pre><code class="lang-cs">static async Task Main(string[] args)
+{
+
+}
+</code></pre>
+<p>If you typed this in by hand, Intellisense should have generated the required <code>using</code> directive for you. However, if you
+copy-pasted the snippet above, VS will complain about being unable to find the <code>Task</code> type.</p>
+<p>Hover over <code>Task</code> with your mouse and click on <code>Show potential fixes</code> from the tooltip.</p>
+<p><img src="../../images/basics_first_bot_10.png" alt="Error Tooltip"></p>
+<p>Then apply the recommended solution.</p>
+<p><img src="../../images/basics_first_bot_11.png" alt="Solution Menu"></p>
+<p>We'll now create a new <code>DiscordClient</code> instance in our brand new asynchronous method.</p>
+<p>Create a new variable in <code>Main</code> and assign it a new @DSharpPlus.DiscordClient instance, then pass an instance of
+@DSharpPlus.DiscordConfiguration to its constructor. Create an object initializer for @DSharpPlus.DiscordConfiguration
+and populate the @DSharpPlus.DiscordConfiguration.Token property with your bot token then set the
+@DSharpPlus.DiscordConfiguration.TokenType property to @DSharpPlus.TokenType.Bot. Next add the
+@DSharpPlus.DiscordClient.Intents property and populate it with @DSharpPlus.DiscordIntents.AllUnprivileged.
+These Intents are required for certain events to be fired. Please visit this <a class="xref" href="../beyond_basics/intents.html">article</a> for more information.</p>
+<pre><code class="lang-cs">var discord = new DiscordClient(new DiscordConfiguration()
+{
+    Token = &quot;My First Token&quot;,
+    TokenType = TokenType.Bot,
+    Intents = DiscordIntents.AllUnprivileged
+});
+</code></pre>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>We hard-code the token in the above snippet to keep things simple and easy to understand.</p>
+<p>Hard-coding your token is <em>not</em> a smart idea, especially if you plan on distributing your source code.
+Instead you should store your token in an external medium, such as a configuration file or environment variable, and
+read that into your program to be used with DSharpPlus.</p>
+</div>
+<p>Follow that up with @DSharpPlus.DiscordClient.ConnectAsync* to connect and login to Discord, and <code>await Task.Delay(-1);</code>
+at the end of the method to prevent the console window from closing prematurely.</p>
+<pre><code class="lang-cs">var discord = new DiscordClient();
+
+await discord.ConnectAsync();
+await Task.Delay(-1);
+</code></pre>
+<p>As before, Intellisense will have auto generated the needed <code>using</code> directive for you if you typed this in by hand. If
+you've copied the snippet, be sure to apply the recommended suggestion to insert the required directive.</p>
+<p>If you hit <code>F5</code> on your keyboard to compile and run your program, you'll be greeted by a happy little console with a
+single log message from DSharpPlus. Woo hoo!</p>
+<p><img src="../../images/basics_first_bot_12.png" alt="Program Console"></p>
+<h2 id="spicing-up-your-bot">Spicing Up Your Bot</h2>
+<p>Right now our bot doesn't do a whole lot. Let's bring it to life by having it respond to a message!</p>
+<p>As of September 1st 2022, Discord started requiring message content intent for bots that want to read message content. This is a privileged intent!</p>
+<p>If your bot has under 100 guilds, all you have to do is flip the switch in the developer dashboard. (over at <a href="https://discord.com/developers/applications">https://discord.com/developers/applications</a>)
+If your bot has over 100 guilds, you'll need approval from Discord's end.</p>
+<p>After enabling the intent in the developer dashboard, you have to specify your intents in you DiscordConfiguration:</p>
+<pre><code class="lang-cs">var discord = new DiscordClient(new DiscordConfiguration()
+{
+    Token = &quot;My First Token&quot;,
+    TokenType = TokenType.Bot,
+    Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents
+});
+</code></pre>
+<p>Now you can start to listen to messages.</p>
+<p>Hook the @DSharpPlus.DiscordClient.MessageCreated event fired by @DSharpPlus.DiscordClient with a <a class="xref" href="../beyond_basics/events.html">lambda</a>. Mark it
+as <code>async</code> and give it two parameters: <code>s</code> and <code>e</code>.</p>
+<pre><code class="lang-cs">discord.MessageCreated += async (s, e) =&gt;
+{
+
+};
+</code></pre>
+<p>Then, add an <code>if</code> statement into the body of your event lambda that will check if
+@DSharpPlus.Entities.DiscordMessage.Content starts with your desired trigger word and respond with a message using
+@DSharpPlus.Entities.DiscordMessage.RespondAsync*if it does. For this example, we'll have the bot to respond with
+<em>pong!<em>for each message that starts with</em>ping</em>.</p>
+<pre><code class="lang-cs">discord.MessageCreated += async (s, e) =&gt;
+{
+    if (e.Message.Content.ToLower().StartsWith(&quot;ping&quot;))
+  await e.Message.RespondAsync(&quot;pong!&quot;);
+};
+</code></pre>
+<h2 id="the-finished-product">The Finished Product</h2>
+<p>Your entire program should now look like this:</p>
+<pre><code class="lang-cs">using System;
+using System.Threading.Tasks;
+using DSharpPlus;
+
+namespace MyFirstBot
+{
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            var discord = new DiscordClient(new DiscordConfiguration()
+            {
+                Token = &quot;My First Token&quot;,
+                TokenType = TokenType.Bot,
+                Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents
+            });
+
+            discord.MessageCreated += async (s, e) =&gt;
+            {
+                if (e.Message.Content.ToLower().StartsWith(&quot;ping&quot;))
+                    await e.Message.RespondAsync(&quot;pong!&quot;);
+            };
+
+            await discord.ConnectAsync();
+            await Task.Delay(-1);
+        }
+    }
+}
+</code></pre>
+<p>Hit <code>F5</code> to run your bot, then send <em>ping</em> in any channel your bot account has access to. Your bot should respond with
+<em>pong!</em> for each <em>ping</em> you send.</p>
+<p>Congrats, your bot now does something!</p>
+<p><img src="../../images/basics_first_bot_13.png" alt="Bot Response"></p>
+<h2 id="further-reading">Further Reading</h2>
+<p>Now that you have a basic bot up and running, you should take a look at the following:</p>
+<ul>
+<li><a class="xref" href="../beyond_basics/events.html">Events</a></li>
+<li><a class="xref" href="../commands/intro.html">CommandsNext</a></li>
+</ul>
+<!-- LINKS -->
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/articles/basics/first_bot.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2023 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
