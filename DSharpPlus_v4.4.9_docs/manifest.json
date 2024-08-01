@@ -1,0 +1,1045 @@
+{
+  "source_base_path": "/tmp/DSharpPlus/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/advanced_topics/buttons.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/advanced_topics/buttons.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/advanced_topics/generic_host.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/advanced_topics/generic_host.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/advanced_topics/selects.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/advanced_topics/selects.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/audio/lavalink/configuration.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/audio/lavalink/configuration.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/audio/lavalink/music_commands.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/audio/lavalink/music_commands.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/audio/lavalink/setup.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/audio/lavalink/setup.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/audio/voicenext/prerequisites.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/audio/voicenext/prerequisites.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/audio/voicenext/receive.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/audio/voicenext/receive.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/audio/voicenext/transmit.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/audio/voicenext/transmit.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/basics/bot_account.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/basics/bot_account.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/basics/first_bot.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/basics/first_bot.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/beyond_basics/events.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/beyond_basics/events.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/beyond_basics/intents.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/beyond_basics/intents.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/beyond_basics/logging/default.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/beyond_basics/logging/default.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/beyond_basics/logging/third_party.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/beyond_basics/logging/third_party.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/beyond_basics/messagebuilder.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/beyond_basics/messagebuilder.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/beyond_basics/sharding.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/beyond_basics/sharding.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/commands/argument_converters.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/commands/argument_converters.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/commands/command_attributes.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/commands/command_attributes.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/commands/command_handler.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/commands/command_handler.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/commands/dependency_injection.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/commands/dependency_injection.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/commands/help_formatter.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/commands/help_formatter.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/commands/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/commands/intro.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/hosting.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/hosting.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/interactivity.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/interactivity.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/migration/2x_to_3x.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/migration/2x_to_3x.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/migration/3x_to_4x.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/migration/3x_to_4x.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/migration/dsharp.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/migration/dsharp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/misc/debug_symbols.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/misc/debug_symbols.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/misc/nightly_builds.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/misc/nightly_builds.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/misc/reporting_issues.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/misc/reporting_issues.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/preamble.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/preamble.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/slash_commands.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/slash_commands.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "faq.md",
+      "output": {
+        ".html": {
+          "relative_path": "faq.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/Intents.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/Intents.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/advanced_topics_buttons_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/advanced_topics_buttons_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/advanced_topics_buttons_02.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/advanced_topics_buttons_02.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/advanced_topics_selects_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/advanced_topics_selects_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/advanced_topics_selects_02.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/advanced_topics_selects_02.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_bot_account_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_bot_account_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_bot_account_02.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_bot_account_02.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_bot_account_03.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_bot_account_03.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_bot_account_04.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_bot_account_04.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_bot_account_05.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_bot_account_05.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_bot_account_06.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_bot_account_06.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_bot_account_07.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_bot_account_07.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_bot_account_08.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_bot_account_08.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_bot_account_09.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_bot_account_09.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_first_bot_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_first_bot_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_first_bot_02.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_first_bot_02.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_first_bot_03.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_first_bot_03.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_first_bot_04.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_first_bot_04.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_first_bot_05.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_first_bot_05.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_first_bot_06.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_first_bot_06.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_first_bot_07.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_first_bot_07.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_first_bot_08.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_first_bot_08.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_first_bot_10.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_first_bot_10.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_first_bot_11.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_first_bot_11.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_first_bot_12.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_first_bot_12.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/basics_first_bot_13.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/basics_first_bot_13.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/beyond_basics_logging_default_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/beyond_basics_logging_default_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/beyond_basics_logging_default_02.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/beyond_basics_logging_default_02.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/beyond_basics_logging_default_03.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/beyond_basics_logging_default_03.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/beyond_basics_logging_third_party_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/beyond_basics_logging_third_party_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/beyond_basics_logging_user_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/beyond_basics_logging_user_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/beyond_basics_logging_user_02.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/beyond_basics_logging_user_02.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/beyond_basics_logging_user_03.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/beyond_basics_logging_user_03.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/beyond_basics_logging_user_04.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/beyond_basics_logging_user_04.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/beyond_basics_logging_user_05.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/beyond_basics_logging_user_05.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/beyond_basics_logging_user_06.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/beyond_basics_logging_user_06.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_argument_converters_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_argument_converters_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_command_attributes_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_command_attributes_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_dependency_injection_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_dependency_injection_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_help_formatter_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_help_formatter_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_help_formatter_02.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_help_formatter_02.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_intro_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_intro_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_intro_02.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_intro_02.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_intro_03.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_intro_03.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_intro_04.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_intro_04.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_intro_05.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_intro_05.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_intro_06.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_intro_06.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_intro_07.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_intro_07.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/commands_intro_08.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/commands_intro_08.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/faq_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/faq_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/faq_02.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/faq_02.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/faq_03.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/faq_03.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/favicon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "images/favicon.ico"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/interactivity_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/interactivity_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/interactivity_02.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/interactivity_02.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/interactivity_03.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/interactivity_03.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/interactivity_04.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/interactivity_04.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/interactivity_05.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/interactivity_05.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logobig.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/logobig.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/voicenext_receive_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/voicenext_receive_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/voicenext_transmit_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/voicenext_transmit_01.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "langword_mapping.yml",
+      "output": {
+        "resource": {
+          "relative_path": "langword_mapping.yml"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "natives/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "natives/index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

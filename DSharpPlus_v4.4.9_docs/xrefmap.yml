@@ -1,0 +1,114 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: apidocs
+  name: API Reference
+  href: api/index.html
+- uid: articles.advanced_topics.buttons
+  name: Buttons
+  href: articles/advanced_topics/buttons.html
+- uid: articles.advanced_topics.generic_host
+  name: Generic Host
+  href: articles/advanced_topics/generic_host.html
+- uid: articles.advanced_topics.selects
+  name: Select Menus
+  href: articles/advanced_topics/selects.html
+- uid: articles.audio.lavalink.configuration
+  name: Lavalink Configuration
+  href: articles/audio/lavalink/configuration.html
+- uid: articles.audio.lavalink.music_commands
+  name: Lavalink Music Commands
+  href: articles/audio/lavalink/music_commands.html
+- uid: articles.audio.lavalink.setup
+  name: Lavalink Setup
+  href: articles/audio/lavalink/setup.html
+- uid: articles.audio.voicenext.prerequisites
+  name: VoiceNext Prerequisites
+  href: articles/audio/voicenext/prerequisites.html
+- uid: articles.audio.voicenext.receive
+  name: Receiving
+  href: articles/audio/voicenext/receive.html
+- uid: articles.audio.voicenext.transmit
+  name: Transmitting
+  href: articles/audio/voicenext/transmit.html
+- uid: articles.basics.bot_account
+  name: Creating a Bot Account
+  href: articles/basics/bot_account.html
+- uid: articles.basics.first_bot
+  name: Your First Bot
+  href: articles/basics/first_bot.html
+- uid: articles.beyond_basics.events
+  name: DSharpPlus Events
+  href: articles/beyond_basics/events.html
+- uid: articles.beyond_basics.intents
+  name: Intents
+  href: articles/beyond_basics/intents.html
+- uid: articles.beyond_basics.logging.default
+  name: The Default Logger
+  href: articles/beyond_basics/logging/default.html
+- uid: articles.beyond_basics.logging.third_party
+  name: Third Party Logging
+  href: articles/beyond_basics/logging/third_party.html
+- uid: articles.beyond_basics.messagebuilder
+  name: Message Builder
+  href: articles/beyond_basics/messagebuilder.html
+- uid: articles.beyond_basics.sharding
+  name: Sharding
+  href: articles/beyond_basics/sharding.html
+- uid: articles.commands.argument_converters
+  name: Argument Converter
+  href: articles/commands/argument_converters.html
+- uid: articles.commands.command_attributes
+  name: Command Attributes
+  href: articles/commands/command_attributes.html
+- uid: articles.commands.command_handler
+  name: Custom Command Handler
+  href: articles/commands/command_handler.html
+- uid: articles.commands.dependency_injection
+  name: Dependency Injection
+  href: articles/commands/dependency_injection.html
+- uid: articles.commands.help_formatter
+  name: Help Formatter
+  href: articles/commands/help_formatter.html
+- uid: articles.commands.intro
+  name: CommandsNext Introduction
+  href: articles/commands/intro.html
+- uid: articles.hosting
+  name: Hosting Solutions
+  href: articles/hosting.html
+- uid: articles.interactivity
+  name: Interactivity Introduction
+  href: articles/interactivity.html
+- uid: articles.migration.2x_to_3x
+  name: Migration 2.x - 3.x
+  href: articles/migration/2x_to_3x.html
+- uid: articles.migration.3x_to_4x
+  name: Migration 3.x - 4.x
+  href: articles/migration/3x_to_4x.html
+- uid: articles.migration.dsharp
+  name: Migration From DiscordSharp
+  href: articles/migration/dsharp.html
+- uid: articles.misc.debug_symbols
+  name: Debug Symbols
+  href: articles/misc/debug_symbols.html
+- uid: articles.misc.nightly_builds
+  name: Nightly Builds
+  href: articles/misc/nightly_builds.html
+- uid: articles.misc.reporting_issues
+  name: Reporting Issues
+  href: articles/misc/reporting_issues.html
+- uid: articles.preamble
+  name: Article Preamble
+  href: articles/preamble.html
+- uid: articles.slash_commands
+  name: Slash Commands
+  href: articles/slash_commands.html
+- uid: faq
+  name: Frequently Asked Questions
+  href: faq.html
+- uid: index
+  name: DSharpPlus Documentation
+  href: index.html
+- uid: natives
+  name: Native Libraries
+  href: natives/index.html

@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Frequently Asked Questions | DSharpPlus </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Frequently Asked Questions | DSharpPlus ">
+      
+      
+      <link rel="icon" href="images/favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/faq.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="images/logo.png" alt="DSharpPlus">
+            DSharpPlus
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled="" placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="faq">
+<h1 id="frequently-asked-questions">Frequently Asked Questions</h1>
+
+<h2 id="ive-updated-from-an-old-version-to-the-latest-version-and-my-project-wont-build">I've updated from an old version to the latest version and my project won't build!</h2>
+<p>Please read the latest <a class="xref" href="articles/migration/3x_to_4x.html">migration article</a> to see a list of changes, as major version
+releases will usually have several breaking changes.</p>
+<h2 id="code-i-copied-from-an-article-isnt-compiling-or-working-as-expected-why">Code I copied from an article isn't compiling or working as expected. Why?</h2>
+<p><em>Please use the code snippets as a reference; don't blindly copy-paste code!</em></p>
+<p>The snippets of code in the articles are meant to serve as examples to help you understand how to use a part of the
+library. Although most will compile and work at the time of writing, changes to the library over time can make some
+snippets obsolete. Many issues can be resolved with Intellisense by searching for similarly named methods and verifying
+method parameters.</p>
+<h2 id="im-targeting-mono-and-have-exceptions-crashes-or-other-problems">I'm targeting Mono and have exceptions, crashes, or other problems.</h2>
+<p>As mentioned in the <a class="xref" href="articles/preamble.html">preamble</a>, the Mono runtime is inherently unstable and has numerous flaws. Because of this we
+do not support Mono in any way, nor will we support any other projects which use it.</p>
+<p>Instead, we recommend using either the latest LTS release or most recent stable version of <a href="https://dotnet.microsoft.com/download">.NET</a>.</p>
+<h2 id="connecting-to-a-voice-channel-with-voicenext-will-either-hang-or-throw-an-exception">Connecting to a voice channel with VoiceNext will either hang or throw an exception.</h2>
+<p>To troubleshoot, please ensure that:</p>
+<ul>
+<li>You are using the latest version of DSharpPlus.</li>
+<li>You have properly enabled VoiceNext with your instance of @DSharpPlus.DiscordClient.</li>
+<li>You are <em>not</em> using VoiceNext in an event handler.</li>
+<li>You have <a class="xref" href="articles/audio/voicenext/prerequisites.html">opus and libsodium</a> available in your target environment.</li>
+</ul>
+<h2 id="why-am-i-getting-heartbeat-skipped-message-in-my-console">Why am I getting <em>heartbeat skipped</em> message in my console?</h2>
+<p>There are two possible reasons:</p>
+<h3 id="connection-issue-between-your-bot-application-and-discord">Connection issue between your bot application and Discord.</h3>
+<p>Check your internet connection and ensure that the machine your bot is hosted on has a stable internet connection. If
+your local network has no issues, the problem could be with either Discord or Cloudfare. In which case, it's out of your
+control.</p>
+<h3 id="complex-long-running-code-in-an-event-handler">Complex, long-running code in an event handler.</h3>
+<p>Any event handlers that have the potential to run for more than a few seconds could cause a deadlock, and cause several
+heartbeats to be skipped. Please take a look at our short article on <a class="xref" href="articles/beyond_basics/events.html">handling DSharpPlus exceptions</a> to learn how to
+avoid this.</p>
+<h2 id="why-am-i-getting-a-4xx-error-and-how-can-i-fix-it">Why am I getting a 4XX error and how can I fix it?</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">HTTP Error Code</th>
+<th style="text-align: left;">Cause</th>
+<th style="text-align: left;">Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>401</code></td>
+<td style="text-align: left;">Invalid token.</td>
+<td style="text-align: left;">Verify your token and make sure no errors were made. The client secret found on the 'general information' tab of your application page <em>is not</em> your token.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>403</code></td>
+<td style="text-align: left;">Not enough permissions.</td>
+<td style="text-align: left;">Verify permissions and ensure your bot account has a role higher than the target user. Administrator permissions <em>do not</em> bypass the role hierarchy.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>404</code></td>
+<td style="text-align: left;">Requested object not found.</td>
+<td style="text-align: left;">This usually means the entity does not exist. You should reattempt then inform your user.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="i-cannot-modify-a-specific-user-or-role-why-is-this">I cannot modify a specific user or role. Why is this?</h2>
+<p>In order to modify a user, the highest role of your bot account must be higher than the target user. Changing the properties of a role requires that your bot account have a role higher than that role.</p>
+<h2 id="does-commandsnext-support-dependency-injection">Does CommandsNext support dependency injection?</h2>
+<p>It does! Please take a look at our <a class="xref" href="articles/commands/dependency_injection.html">article</a> on the subject.</p>
+<h2 id="can-i-use-a-user-token">Can I use a user token?</h2>
+<p>Automating a user account is against Discord's Terms of Service and is not supported by DSharpPlus.</p>
+<h2 id="how-can-i-set-a-custom-status">How can I set a custom status?</h2>
+<p>If you mean a <em>true</em> custom status like this:</p>
+<p><img src="images/faq_01.png" alt="help"></p>
+<p>No, you cannot. Discord does not allow bots to use custom statuses.</p>
+<br>
+However, if you meant an activity like this:
+<p><img src="images/faq_02.png" alt="Bot Presence"></p>
+<p>You can use either of the following</p>
+<ul>
+<li>The overload for @DSharpPlus.DiscordClient.UpdateStatusAsync(DSharpPlus.Entities.DiscordActivity,System.Nullable{DSharpPlus.Entities.UserStatus},System.Nullable{System.DateTimeOffset}) which accepts a @DSharpPlus.Entities.DiscordActivity.</li>
+<li>The overload for @DSharpPlus.DiscordClient.UpdateStatusAsync(DSharpPlus.Entities.DiscordActivity,System.Nullable{DSharpPlus.Entities.UserStatus},System.Nullable{System.DateTimeOffset}) OR @DSharpPlus.DiscordShardedClient.UpdateStatusAsync(DSharpPlus.Entities.DiscordActivity,System.Nullable{DSharpPlus.Entities.UserStatus},System.Nullable{System.DateTimeOffset}) (for the sharded client) at any point after <code>Ready</code> has been fired.</li>
+</ul>
+<h2 id="am-i-able-to-retrieve-a--by-name">Am I able to retrieve a @DSharpPlus.Entities.DiscordRole by name?</h2>
+<p>Yes. Use LINQ on the @DSharpPlus.Entities.DiscordGuild.Roles property of your instance of @DSharpPlus.Entities.DiscordGuild and compare against the
+@DSharpPlus.Entities.DiscordRole.Name of each @DSharpPlus.Entities.DiscordRole.</p>
+<h2 id="why-are-you-using-newtonsoftjson-when--is-available">Why are you using <a href="https://github.com/JamesNK/Newtonsoft.Json">Newtonsoft.Json</a> when &lt;xref:System.Text.Json&gt; is available?</h2>
+<p>Yes, &lt;xref:System.Text.Json&gt; is available to use, and we aim to use &lt;xref:System.Text.Json&gt; in DSharpPlus v5. Because of the large
+effort associated with switching, v4 will continue to use <a href="https://github.com/JamesNK/Newtonsoft.Json">Newtonsoft.Json</a></p>
+<h2 id="why-the-hell-are-my-events-not-firing">Why the hell are my events not firing?</h2>
+<p>This is because since version 8 of the Discord API, @DSharpPlus.DiscordIntents are required to be enabled on
+@DSharpPlus.DiscordConfiguration and the Discord Application Portal. We have an <a class="xref" href="articles/beyond_basics/intents.html">article</a> that covers all that has to
+be done to set this up.</p>
+<h2 id="where-are-my-pictures-of-spiderman">Where are my pictures of spiderman?</h2>
+<p><img src="images/faq_03.png" alt="GOD DAMN IT PETER"></p>
+<!-- LINKS -->
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/DSharpPlus/DSharpPlus/blob/9833164c15781b72f29619d7fc601857861ae74c/docs/faq.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          © 2016-2023 DSharpPlus Contributors
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
